@@ -57,8 +57,12 @@ function loadLinks() {
         let statusBadge = "";
         if (testServerData.status === 1) {
             statusBadge = `<span class="lu-status-badge">Online</span>`;
+        } else if (testServerData.status === 0) {
+            statusBadge = `<span class="lu-status-badge offline">Offline</span>`;
+        } else {
+            statusBadge = `<span class="lu-status-badge unknown">Unknown</span>`;
         }
-
+        
         // 2. Inject the Last Updated metadata date and Status Badge (Only once)
         lastUpdated.innerHTML = `
             ${statusBadge} Last Updated: <strong>${testServerData.lastUpdated}</strong>

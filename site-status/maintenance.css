@@ -207,6 +207,7 @@
 }
 .status-badge.status-closed .status-dot {
     background-color: var(--danger);
+    animation: pulseGlowRed 1.8s infinite alternate;
 }
 
 /* Unknown Status Theme */
@@ -217,15 +218,6 @@
 }
 .status-badge.status-unknown .status-dot {
     background-color: var(--text-muted);
-}
-
-@keyframes pulseGlowGreen {
-    0% {
-        box-shadow: 0 0 0 0 rgba(37, 194, 110, 0.5);
-    }
-    100% {
-        box-shadow: 0 0 0 6px rgba(37, 194, 110, 0);
-    }
 }
 
 /* Closed Status Inner Notice Helper block */

@@ -243,7 +243,8 @@ body {
 
 /* Specifically target images and badges inside the hero banner to prevent dragging/saving */
 .hero-banner-wrapper img,
-.hero-banner-wrapper span {
+.hero-banner-wrapper span,
+img {
     -webkit-touch-callout: none;
     -webkit-user-drag: none;     /* Prevents dragging images */
     user-select: none;
@@ -359,6 +360,17 @@ h1 {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     animation: pulseGlowGreen 1.8s infinite alternate;
+}
+
+.lu-status-badge.offline {
+    background-color: var(--danger);
+    color: #ffffff;
+    animation: pulseGlowRed 1.8s infinite alternate;
+}
+
+.lu-status-badge.unknown {
+    background-color: var(--warning);
+    color: #000000;
 }
 
 .build-info-wrapper {
@@ -1084,15 +1096,21 @@ button.btn-locked:hover {
     }
 }
 
-@keyframes pulseGlowRed {
+@keyframes pulseGlowGreen {
     0% {
-        box-shadow: 0 0 0 rgba(239, 68, 68, 0.3);
-    }
-    50% {
-        box-shadow: 0 0 18px rgba(239, 68, 68, 0.6);
+        box-shadow: 0 0 0 0 rgba(37, 194, 110, 0.5);
     }
     100% {
-        box-shadow: 0 0 0 rgba(239, 68, 68, 0.3);
+        box-shadow: 0 0 0 6px rgba(37, 194, 110, 0);
+    }
+}
+
+@keyframes pulseGlowRed {
+    0% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
+    }
+    100% {
+        box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
     }
 }
 
