@@ -472,3 +472,20 @@ window.addEventListener("load", () => {
         });
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Prevent right-click context menu on any current or future images
+    document.addEventListener('contextmenu', (e) => {
+        if (e.target.tagName === 'IMG') {
+            e.preventDefault();
+        }
+    });
+
+    // Prevent dragging on any current or future images
+    document.addEventListener('dragstart', (e) => {
+        if (e.target.tagName === 'IMG') {
+            e.preventDefault();
+        }
+    });
+});
+
