@@ -19,6 +19,20 @@ window.onYouTubeIframeAPIReady = function() {
  * Helper function to generate the HTML string for all download links.
  * Prevents code duplication between active and forced states.
  */
+function setSelectionLock(lock) {
+    ['userSelect', 'webkitUserSelect', 'msUserSelect', 'mozUserSelect'].forEach(prop => {
+        document.body.style[prop] = lock ? "none" : "";
+    });
+}
+
+// Prevent clipboard copy actions globally when verification overlay is open
+document.addEventListener('copy', (e) => {
+    const verifyOverlay = document.getElementById('verifyOverlay');
+    if (verifyOverlay && verifyOverlay.style.display === 'flex') {
+        e.preventDefault();
+    }
+});
+
 function renderLinksHtml() {
     if (typeof testServerData === "undefined" || !testServerData.links) return "";
 
@@ -145,6 +159,8 @@ function showVerification() {
     document.getElementById("videoSource").href = notARobot.codeSource;
     document.getElementById("verifyOverlay").style.display = "flex";
     
+    setSelectionLock(true); // Lock text selection and highlighting across devices
+    
     // Reset checkbox state upon display panel invocation
     const checkbox = document.getElementById("disclaimerCheckbox");
     if (checkbox) checkbox.checked = false;
@@ -188,6 +204,7 @@ function unlockLinks() {
     }
 
     document.getElementById("verifyOverlay").style.display = "none";
+    setSelectionLock(false); // Re-enable normal text selection and copying once verified
 }
 
 /**
