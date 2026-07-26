@@ -118,7 +118,7 @@ function forceShowLinks() {
     if (typeof testServerData === "undefined" || !testServerData.links) return;
 
     container.innerHTML = renderLinksHtml();
-    // Bypasses showVerification() entirely when server is closed!
+    showVerification(); // Triggers the verification overlay even when the server is offline
 }
 
 function copyLink(id, button) {
