@@ -296,29 +296,73 @@ h1 {
     font-weight: 500;
 }
 
-/* Refactored Native Social Sharing button structures */
 .share-area {
     text-align: center;
-    margin-top: 15px;
+    margin-top: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 0 4px;
 }
 
+/* Share Button (Fixed Size) */
 .btn-share {
+    flex: 0 0 140px; /* Prevents growing or shrinking; sets a locked width */
     background: var(--gold);
     color: var(--bg-dark);
     border: none;
-    padding: 10px 20px;
-    font-weight: bold;
-    border-radius: 5px;
+    padding: 11px 14px;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
     cursor: pointer;
-    font-size: 14px;
-    transition: 0.2s;
-    width: auto; /* Overrides global full-width buttons block */
+    font-size: 13.5px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
 
 .btn-share:hover {
     background: var(--gold-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(255, 184, 0, 0.25);
 }
 
+.btn-share:active {
+    transform: scale(0.98);
+}
+
+/* Community Button (Fixed Size) */
+.btn-community {
+    flex: 0 0 140px; /* Locked to the exact same fixed dimensions */
+    background: #ff0000;
+    color: #ffffff;
+    border: none;
+    padding: 11px 14px;
+    font-weight: 700;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 13.5px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-community:hover {
+    background: #e60000;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(255, 0, 0, 0.35);
+}
+
+.btn-community:active {
+    transform: scale(0.98);
+}
 
 /* ==========================================================================
    5. LAST UPDATED STATUS LOADER & BUILD INFO BADGES
@@ -327,7 +371,7 @@ h1 {
     margin: 10px 24px; /* Reduced vertical gap */
     padding: 8px 12px; /* Slimmer */
     background: rgba(255, 255, 255, 0.03); /* Subtle, non-intrusive background */
-    border: 1px solid var(--border);
+    border: 1px dashed var(--border);
     border-radius: 8px;
     
     /* Centering everything nicely */
