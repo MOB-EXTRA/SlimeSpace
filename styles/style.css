@@ -670,9 +670,13 @@ h1 {
     color: var(--link);
     margin-bottom: 14px;
     word-break: break-word;
-    font-size: 14px; 
-    padding: 8px 10px;
+    font-size: 16px; 
+    padding: 0px 10px;
+    height: 51px;
+    display: flex;           /* Enables flexbox container */
+    align-items: center;     /* Vertically centers the text */
 }
+
 
 /* Container for the side-by-side buttons */
 .link-actions {
@@ -692,13 +696,13 @@ button {
 /* Download Button */
 .download-btn {
     flex: 1;
-    background: #333;
     color: #fff;
     text-decoration: none;
     text-align: center;
     font-weight: bold;
     font-size: 0.9rem;
-    border: 1px solid #444;
+    background: var(--surface);
+    border: 1px solid var(--border);
 }
 
 .download-btn:hover {
