@@ -132,10 +132,10 @@ function loadLinks() {
             
             injectVerificationSection();
             
-            // Wait 3 seconds after links are loaded before showing verification
+            // Wait 1 sec after links are loaded before showing verification
             setTimeout(() => {
                 showVerification(); 
-            }, 3000);
+            }, 1000);
         } else {
             if (serverClosedSection) serverClosedSection.style.display = "block";
             // If offline, lock/blur links by default until force show is clicked or verified
