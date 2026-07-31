@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
   <head>
-    
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-ENB2PW2B5X"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -56,7 +55,6 @@
       <div class="card">
         
         <div class="hero-banner-wrapper">
-          
           <!-- 1. Background of all (1B) -->
           <img src="assets/images/hero-banner-1B.png" alt="CODM Test Server Background" class="hero-bg" />
           
@@ -67,7 +65,7 @@
           <div class="hero-overlay"></div>
         
           <!-- 2. Behind the character: CODM PTB HUB -->
-         <span class="hero-badge-top"><span class="gold-text">CODM</span> PTB HUB</span>
+          <span class="hero-badge-top"><span class="gold-text">CODM</span> PTB HUB</span>
 
           <!-- 3. Middle layer: Character Render (1A) with Organic Floating Animation -->
           <div class="hero-character-container">
@@ -80,7 +78,6 @@
 
           <!-- Pinned Loading Line -->
           <div class="loading-line"></div>
-          
         </div>
 
         <div class="header">
@@ -96,125 +93,131 @@
             </a>
           </div>
 
-        <div class="share-area">
-          <button id="shareSiteBtn" class="btn-share">
-            <i class="fa-solid fa-share-nodes"></i> Share Site
-          </button>
-          
-          <!--  YouTube Community Button -->
-          <a href="https://www.youtube.com/channel/UCbDtYZS08VvB6luAcyn08bQ/community" target="_blank" rel="noopener noreferrer" class="btn-community">
-            <i class="fa-solid fa-comments"></i> Community
-          </a>
-        </div> 
-          
+          <div class="share-area">
+            <button id="shareSiteBtn" class="btn-share">
+              <i class="fa-solid fa-share-nodes"></i> Share Site
+            </button>
+            
+            <!-- YouTube Community Button -->
+            <a href="https://www.youtube.com/channel/UCbDtYZS08VvB6luAcyn08bQ/community" target="_blank" rel="noopener noreferrer" class="btn-community">
+              <i class="fa-solid fa-comments"></i> Community
+            </a>
+          </div> 
         </div>
 
         <div id="lastUpdated" class="last-updated progress-loader">
           <i class="fa-solid fa-rocket fa-beat-fade"></i> <span id="statusMsg">Checking Server Status...</span>
         </div>
 
-        <!-- WRAPPER START: This hides the content until the loading finishes -->
+        <!-- ==========================================================
+           SECTION 1: Available Download Section
+           ========================================================== -->
         <div id="mainContentSection" style="display: none;">
-            <div class="info-box">
-              <h3>What is the CODM Public Test Build?</h3>
+          <div class="info-box">
+            <h3>What is the CODM Public Test Build?</h3>
+            <p>
+              The CODM Public Test Build (also known as the <strong>CODM Test Server</strong>) is an early-access environment released by the developers. It allows players to experience upcoming game updates, new maps, weapons, and balance changes before they are launched in the official version.
+            </p>
+          </div>
+
+          <div class="intro-box">
+            <h2>Available Downloads</h2>
+            <p>
+              Access the newest official public test builds deployed by the developers. Please select the appropriate package file optimized for your mobile device specifications below:
+            </p>
+            
+            <div id="introContentDrawer" class="intro-drawer">
+              <ul>
+                <li>
+                  <strong>
+                    <i class="fa-brands fa-apple"></i> iOS Build (Apple TestFlight)
+                  </strong>
+                  <br />
+                  Designed for iPhone and iPad environments. Requires Apple's native TestFlight application. <em>Note: Slot capacity is limited by developer project pools.</em>
+                </li>
+                <li>
+                  <strong>
+                    <i class="fa-brands fa-android"></i> Android Build (32-Bit)
+                  </strong>
+                  <br />
+                  Legacy deployment optimized for older mobile chipsets or budget hardware configurations.
+                </li>
+                <li>
+                  <strong>
+                    <i class="fa-brands fa-android"></i> Android Build (64-Bit)
+                  </strong>
+                  <br />
+                  High-performance deployment package recommended for modern Android devices using up-to-date processors.
+                </li>
+              </ul>
               <p>
-                The CODM Public Test Build (also known as the <strong>CODM Test Server</strong>) is an early-access environment released by the developers. It allows players to experience upcoming game updates, new maps, weapons, and balance changes before they are launched in the official version.
+                If you are uncertain about your processor configuration, the <strong>64-bit build</strong> provides optimal compatibility and stability on newer flagship devices.
               </p>
             </div>
 
-            <div class="intro-box">
-              <h2>Available Downloads</h2>
-              <p>
-                Access the newest official public test builds deployed by the developers. Please select the appropriate package file optimized for your mobile device specifications below:
-              </p>
-              
-              <div id="introContentDrawer" class="intro-drawer">
-                <ul>
-                  <li>
-                    <strong>
-                      <i class="fa-brands fa-apple"></i> iOS Build (Apple TestFlight)
-                    </strong>
-                    <br />
-                    Designed for iPhone and iPad environments. Requires Apple's native TestFlight application. <em>Note: Slot capacity is limited by developer project pools.</em>
-                  </li>
-                  <li>
-                    <strong>
-                      <i class="fa-brands fa-android"></i> Android Build (32-Bit)
-                    </strong>
-                    <br />
-                    Legacy deployment optimized for older mobile chipsets or budget hardware configurations.
-                  </li>
-                  <li>
-                    <strong>
-                      <i class="fa-brands fa-android"></i> Android Build (64-Bit)
-                    </strong>
-                    <br />
-                    High-performance deployment package recommended for modern Android devices using up-to-date processors.
-                  </li>
-                </ul>
-                <p>
-                  If you are uncertain about your processor configuration, the <strong>64-bit build</strong> provides optimal compatibility and stability on newer flagship devices.
-                </p>
-              </div>
-
-              <button id="toggleIntroBtn" class="btn-toggle-intro">
-                <span>Read More</span> <i class="fa-solid fa-chevron-down"></i>
-              </button>
-            </div>
+            <button id="toggleIntroBtn" class="btn-toggle-intro">
+              <span>Read More</span> <i class="fa-solid fa-chevron-down"></i>
+            </button>
+          </div>
         </div>
-        <!-- WRAPPER END -->
-        
-        <div class="links-wrapper">
+
+        <!-- ==========================================================
+           SECTION 2: Links Section Only (Instructions Removed)
+           ========================================================== -->
+        <div class="links-section-wrapper">
+          <!-- Links container (Always rendered in DOM for SEO crawlers, locked/blurred by default) -->
           <div id="linksContainer">
             <div class="loading-box">
                 <div class="loader"></div>
                 <p id="loadingText">Loading official download links...</p>
             </div>
           </div>
-          <!-- SEO Fallback -->
+          
           <noscript>
             <p>Please enable JavaScript to view the official CODM Public Test Build download links.</p>
           </noscript>
-
-          <div class="instructions-box">
-              <div class="instructions-title"><i class="fa-solid fa-circle-info fa-beat-fade"></i> How to use the links:</div>
-              <p class="instructions-text">
-                  Tap the <strong>Download</strong> button to start. If the download encounters issues, freezes, or fails, tap <strong>Copy Link</strong> instead, then open your phone's primary browser (like Chrome or Safari) and paste the URL directly into the address bar.
-              </p>
-              <p class="instructions-note">
-                  <em>Why?</em> Heavy downloads often glitch or stall inside social media apps or in-app web views. Using a dedicated external browser is significantly more reliable!
-              </p>
-          </div>
-
-          <div id="verifyOverlay" class="verify-overlay">
-            <div class="verify-box">
-              <h2>Verification Required</h2>
-              <p class="verify-text">
-                To keep this redirection hub stable and secure from automated scripts, please verify your session using the latest access code provided in the video below.
-              </p> 
-                
-              <input type="text" id="verifyCode" placeholder="Enter verification code" />
-              
-              <a id="videoSource" target="_blank" rel="noopener noreferrer">
-                <i class="fa-regular fa-circle-play"></i> Watch Video to Retrieve Code
-              </a>
-              
-              <div class="disclaimer-checkbox-container">
-                <label class="custom-checkbox-label">
-                  <input type="checkbox" id="disclaimerCheckbox" />
-                  <span class="checkbox-box"></span>
-                  <span class="checkbox-text">
-                    I acknowledge that <strong>MOB EXTRA</strong> acts as an independent portal for official developer links. I agree that <strong>MOB EXTRA</strong> does not host these packages and is not responsible for their content. I proceed at my own risk and discretion.
-                  </span>
-                </label>
-              </div>
-              
-              <button id="unlockButton" class="btn-locked" disabled>Verify & Access Downloads</button>
-
-               </div>
-          </div>
         </div>
 
+        <!-- ==========================================================
+           SECTION 3: Notification Section (Server Closed)
+           ========================================================== -->
+        <div id="serverClosedSection" class="server-closed-section" style="display: none;">
+          <div class="server-closed">
+            <h2><i class="fa-solid fa-circle-exclamation"></i> Public Test Build Unavailable</h2>
+            <p>The official Call of Duty: Mobile Public Test Build is currently closed or offline.</p>
+            <p>Please stay tuned for official developer announcements regarding future testing phases.</p>
+            <div class="server-reassurance-note">
+                <i class="fa-solid fa-bell fa-swing"></i>
+                <span>Rest assured! As soon as a new Public Test Build session is officially deployed, active download links will automatically refresh and become available right here on this hub.</span>
+            </div>
+            
+            <!-- Added Show Links Anyway Button -->
+            <button class="show-links" onclick="forceShowLinks()">
+              <i class="fa-solid fa-eye"></i> Continue to Download
+            </button>
+           </div>
+        </div>
+
+        <!-- ==========================================================
+           SECTION 4: Verification Section (In-Flow Page Section)
+           ========================================================== -->
+
+        <!-- ==========================================================
+           SECTION 5: Instructions Box (Moved Below Verification)
+           ========================================================== -->
+        <div class="instructions-box">
+          <div class="instructions-title"><i class="fa-solid fa-circle-info fa-beat-fade"></i> How to use the links:</div>
+          <p class="instructions-text">
+              Tap the <strong>Download</strong> button to start. If the download encounters issues, freezes, or fails, tap <strong>Copy Link</strong> instead, then open your phone's primary browser (like Chrome or Safari) and paste the URL directly into the address bar.
+          </p>
+          <p class="instructions-note">
+              <em>Why?</em> Heavy downloads often glitch or stall inside social media apps or in-app web views. Using a dedicated external browser is significantly more reliable!
+          </p>
+        </div>
+
+        <!-- ==========================================================
+           SECTION 6: Disclaimer Section
+           ========================================================== -->
         <div class="disclaimer">
           <h2>Disclaimer</h2>
           <p>
@@ -234,10 +237,12 @@
             All game titles, trademarks, logos, and digital assets are the property of their respective owners.
           </p>
         </div>
-        
+
+        <!-- ==========================================================
+           SECTION 7: Featured Videos, Logos, Footer
+           ========================================================== -->
         <div id="featuredVideosSection"></div>
-        
-         <div id="logoGroup" class="logo-group"></div>
+        <div id="logoGroup" class="logo-group"></div>
 
         <footer class="site-footer">
           <div class="footer-links">
@@ -262,7 +267,6 @@
                 <strong>Vile Tempest Official</strong>
               </a>
           </div>
-
         </footer>
 
       </div>

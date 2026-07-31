@@ -20,15 +20,28 @@ window.onYouTubeIframeAPIReady = function() {
  * Prevents code duplication between active and forced states.
  */
 function setSelectionLock(lock) {
-    ['userSelect', 'webkitUserSelect', 'msUserSelect', 'mozUserSelect'].forEach(prop => {
-        document.body.style[prop] = lock ? "none" : "";
-    });
+    if (lock) {
+        document.body.classList.add("page-locked");
+    } else {
+        document.body.classList.remove("page-locked");
+    }
 }
 
-// Prevent clipboard copy actions globally when verification overlay is open
+// Prevent context menus and text selection globally outside the verification box when locked
+document.addEventListener('contextmenu', (e) => {
+    if (document.body.classList.contains('page-locked') && !e.target.closest('#verifySection')) {
+        e.preventDefault();
+    }
+});
+
+document.addEventListener('selectstart', (e) => {
+    if (document.body.classList.contains('page-locked') && !e.target.closest('#verifySection')) {
+        e.preventDefault();
+    }
+});
+
 document.addEventListener('copy', (e) => {
-    const verifyOverlay = document.getElementById('verifyOverlay');
-    if (verifyOverlay && verifyOverlay.style.display === 'flex') {
+    if (document.body.classList.contains('page-locked')) {
         e.preventDefault();
     }
 });
@@ -36,31 +49,46 @@ document.addEventListener('copy', (e) => {
 function renderLinksHtml() {
     if (typeof testServerData === "undefined" || !testServerData.links) return "";
 
-    return testServerData.links.map((link, index) => `
-        <div class="link-box">
-            <div class="link-title">
-              ${link.device} 
+    return testServerData.links.map((link, index) => {
+        const linkStatus = (link.status !== undefined) ? link.status : testServerData.status;
+        let statusBadge = "";
+        
+        if (linkStatus === 1) {
+            statusBadge = `<span class="lu-status-badge">Online</span>`;
+        } else if (linkStatus === 0) {
+            statusBadge = `<span class="lu-status-badge offline">Offline</span>`;
+        } else {
+            statusBadge = `<span class="lu-status-badge unknown">Unknown</span>`;
+        }
+
+        return `
+            <div class="link-box">
+                <div class="link-title">
+                  <span>${link.device}</span>
+                  ${statusBadge}
+                </div>
+                <div class="link-row">
+                    <img src="assets/images/${link.icon}" alt="App Icon" class="link-app-icon">
+                    <div class="link" id="link${index}">${link.url}</div>
+                </div>
+                <div class="link-actions">
+                    <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="download-btn">
+                        <i class="fa-solid fa-download"></i> Download
+                    </a>
+                    <button onclick="copyLink('link${index}', this)">
+                         <i class="fa-regular fa-copy"></i> Copy Link
+                    </button>
+                </div>
             </div>
-            <div class="link-row">
-                <img src="assets/images/${link.icon}" alt="App Icon" class="link-app-icon">
-                <div class="link" id="link${index}">${link.url}</div>
-            </div>
-            <div class="link-actions">
-                <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="download-btn">
-                    <i class="fa-solid fa-download"></i> Download
-                </a>
-                <button onclick="copyLink('link${index}', this)">
-                     <i class="fa-regular fa-copy"></i> Copy Link
-                </button>
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 function loadLinks() {
     const container = document.getElementById("linksContainer");
     const lastUpdated = document.getElementById("lastUpdated");
     const badgeContainer = document.getElementById("buildBadgeContainer");
+    const serverClosedSection = document.getElementById("serverClosedSection");
 
     try {
         if (typeof testServerData === "undefined") {
@@ -95,25 +123,27 @@ function loadLinks() {
             `;
         }
 
-        // 4. Render download card assets
+        // 4. Always render download card assets into DOM for SEO crawlers
+        container.innerHTML = renderLinksHtml();
+
+        // 5. Control Notification Section (Section 3) and Verification based on status
         if (testServerData.status === 1) {
-            container.innerHTML = renderLinksHtml();
-            showVerification(); // Verification required when server is online
+            if (serverClosedSection) serverClosedSection.style.display = "none";
+            
+            injectVerificationSection();
+            
+            // Wait 3 seconds after links are loaded before showing verification
+            setTimeout(() => {
+                showVerification(); 
+            }, 3000);
         } else {
-            container.innerHTML = `
-                <div class="server-closed">
-                    <h2><i class="fa-solid fa-circle-exclamation"></i> Public Test Build Closed</h2>
-                    <p>The Call of Duty: Mobile Public Test Build is currently unavailable.</p>
-                    <p>Stay tuned for future updates from the official developers.</p>
-                    <div class="server-reassurance-note">
-                        <i class="fa-solid fa-bell fa-swing"></i>
-                        <span>Don't worry! As soon as the developers launch the next Public Test Build session, the active download links will immediately appear right here on this website.</span>
-                    </div>
-                    <button onclick="forceShowLinks()" class="show-links">
-                        <i class="fa-solid fa-eye"></i> View Current Links Anyway
-                    </button>
-                 </div>
-            `;
+            if (serverClosedSection) serverClosedSection.style.display = "block";
+            // If offline, lock/blur links by default until force show is clicked or verified
+            const linksContainer = document.getElementById("linksContainer");
+            if (linksContainer) {
+                linksContainer.classList.add("links-locked");
+                linksContainer.classList.remove("links-unlocked");
+            }
         }
     } catch (error) {
         lastUpdated.innerHTML = `<i class="fa-solid fa-rocket"></i> Last Updated: <strong>Unavailable</strong>`;
@@ -129,10 +159,23 @@ function loadLinks() {
 
 function forceShowLinks() {
     const container = document.getElementById("linksContainer");
+    const serverClosedSection = document.getElementById("serverClosedSection");
     if (typeof testServerData === "undefined" || !testServerData.links) return;
 
+    // Hide the server closed notification section
+    if (serverClosedSection) {
+        serverClosedSection.style.display = "none";
+    }
+
     container.innerHTML = renderLinksHtml();
-    showVerification(); // Triggers the verification overlay even when the server is offline
+    injectVerificationSection();
+    showVerification(); // Triggers the verification process even when the server is offline
+
+    // Smoothly scroll to the verification section
+    const verifySection = document.getElementById("verifySection");
+    if (verifySection) {
+        verifySection.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
 }
 
 function copyLink(id, button) {
@@ -153,11 +196,78 @@ function copyLink(id, button) {
         });
 }
 
+function injectVerificationSection() {
+    if (document.getElementById("verifySection")) return;
+
+    const verifyHTML = `
+        <div id="verifySection" class="verify-section" style="display: none;">
+          <div class="verify-box">
+            <h2>Verification Required</h2>
+            <p class="verify-text">
+              To keep this redirection hub stable and secure from automated scripts, please verify your session using the latest access code provided in the video below.
+            </p> 
+              
+            <input type="text" id="verifyCode" placeholder="Enter verification code" />
+            
+            <a id="videoSource" target="_blank" rel="noopener noreferrer">
+              <i class="fa-regular fa-circle-play"></i> Watch Video to Retrieve Code
+            </a>
+            
+            <div class="disclaimer-checkbox-container">
+              <label class="custom-checkbox-label">
+                <input type="checkbox" id="disclaimerCheckbox" />
+                <span class="checkbox-box"></span>
+                <span class="checkbox-text">
+                  I acknowledge that <strong>MOB EXTRA</strong> acts as an independent portal for official developer links. I agree that <strong>MOB EXTRA</strong> does not host these packages and is not responsible for their content. I proceed at my own risk and discretion.
+                </span>
+              </label>
+            </div>
+            
+            <button id="unlockButton" class="btn-locked" disabled><i class="fa-solid fa-lock"></i> Verify & Access Downloads</button>
+          </div>
+        </div>
+    `;
+
+    const linksSectionWrapper = document.querySelector(".links-section-wrapper");
+    if (linksSectionWrapper) {
+        linksSectionWrapper.insertAdjacentHTML('afterend', verifyHTML);
+    }
+
+    const unlockBtn = document.getElementById("unlockButton");
+    if (unlockBtn) {
+        unlockBtn.addEventListener("click", unlockLinks);
+    }
+    
+    const verifyCodeInput = document.getElementById("verifyCode");
+    if (verifyCodeInput) {
+        verifyCodeInput.addEventListener("keydown", function(e) {
+            if (e.key === "Enter") {
+                unlockLinks();
+            }
+        });
+    }
+
+    const disclaimerBox = document.getElementById("disclaimerCheckbox");
+    if (disclaimerBox) {
+        disclaimerBox.addEventListener("change", updateButtonStatus);
+    }
+}
+
 function showVerification() {
     if (typeof notARobot === "undefined") return;
 
-    document.getElementById("videoSource").href = notARobot.codeSource;
-    document.getElementById("verifyOverlay").style.display = "flex";
+    const videoSource = document.getElementById("videoSource");
+    const verifySection = document.getElementById("verifySection");
+
+    if (videoSource) videoSource.href = notARobot.codeSource;
+    if (verifySection) verifySection.style.display = "flex";
+    
+    // Apply blur and locking to links container
+    const linksContainer = document.getElementById("linksContainer");
+    if (linksContainer) {
+        linksContainer.classList.add("links-locked");
+        linksContainer.classList.remove("links-unlocked");
+    }
     
     setSelectionLock(true); // Lock text selection and highlighting across devices
     
@@ -203,9 +313,22 @@ function unlockLinks() {
         return;
     }
 
-    document.getElementById("verifyOverlay").style.display = "none";
+    // Hide verification section and unblur links container
+    const verifySection = document.getElementById("verifySection");
+    if (verifySection) verifySection.style.display = "none";
+
+    const linksContainer = document.getElementById("linksContainer");
+    if (linksContainer) {
+        linksContainer.classList.remove("links-locked");
+        linksContainer.classList.add("links-unlocked");
+        
+        // Auto-scroll to the links section smoothly upon successful verification
+        linksContainer.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
     setSelectionLock(false); // Re-enable normal text selection and copying once verified
 }
+
 
 /**
  * Manages the state of all progress loaders on the page.
@@ -372,11 +495,9 @@ function loadChannels() {
     }
 }
 
-
 function initFeaturedPlayers() {
-    // Safety check: ensure YouTube API is actually loaded
     if (typeof YT === 'undefined' || typeof YT.Player === 'undefined') {
-        return; // Exit silently; the onYouTubeIframeAPIReady callback will handle it later
+        return; 
     }
     if (typeof featuredVideos === "undefined") return;
     if (featuredPlayers.length > 0) return;
@@ -491,18 +612,15 @@ window.addEventListener("load", () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Prevent right-click context menu on any current or future images
     document.addEventListener('contextmenu', (e) => {
         if (e.target.tagName === 'IMG') {
             e.preventDefault();
         }
     });
 
-    // Prevent dragging on any current or future images
     document.addEventListener('dragstart', (e) => {
         if (e.target.tagName === 'IMG') {
             e.preventDefault();
         }
     });
 });
-
