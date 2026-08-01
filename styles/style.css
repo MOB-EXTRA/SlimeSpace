@@ -243,6 +243,32 @@ body {
     pointer-events: none; /* Allows clicks to pass through */
 }
 
+/* Position the loading box directly in front inside the hero banner */
+.hero-banner-wrapper .loading-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 8; /* Higher than the badges and character */
+    width: 85%;
+    background: transparent; /* Removes the dark background color */
+    backdrop-filter: none;   /* Removes the blur effect */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    text-align: center;
+}
+
+.hero-banner-wrapper .loading-box p {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+/* Hidden state when data loads */
+.hero-banner-wrapper .loading-box.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
 /* ==========================================================================
    4. HEADER & NOTICE ELEMENTS
    ========================================================================== */
@@ -455,17 +481,6 @@ h1 {
 /* ==========================================================================
    6. INFO MODULES (Intro Box & Instructions Box)
    ========================================================================== */
-#mainContentSection {
-    /* Keep display none initially for SEO/Structure */
-    display: none; 
-    
-    /* Start with invisible */
-    opacity: 0; 
-    
-    /* The magic that makes it smooth */
-    transition: opacity 0.8s ease-in-out;
-}
-
 /* New Box for Definitions */
 .info-box {
     margin: 24px 24px 0 24px; /* Matches the top margin of your intro-box */
@@ -796,7 +811,6 @@ button.btn-locked:hover {
 /* ==========================================================================
    8. SYSTEM LOAD & STATE MESSAGE WRAPPERS
    ========================================================================== */
-.loading-box,
 .disclaimer,
 .server-closed,
 .load-error {
@@ -806,13 +820,7 @@ button.btn-locked:hover {
     line-height: 1.7;
 }
 
-/* Active AJAX loading spinner module */
-.loading-box {
-    margin: 0;
-    background: var(--surface-2);
-    border: 1px solid var(--border);
-    text-align: center;
-}
+
 
 .loader {
     width: 42px;
@@ -824,10 +832,7 @@ button.btn-locked:hover {
     animation: spin 1s linear infinite;
 }
 
-.loading-box p {
-    color: var(--text-muted);
-    font-size: 12px;
-}
+
 
 /* Global Content Legal Disclaimer Section styling */
 .disclaimer {

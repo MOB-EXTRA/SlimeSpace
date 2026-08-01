@@ -75,7 +75,12 @@
           <!-- 4. Front of all: TEST SERVER -->
           <span class="hero-badge-main">TEST SERVER</span>
           <span class="hero-banner-sub">Unofficial Community Resource</span>
-
+          
+           <div class="loading-box">
+               <div class="loader"></div>
+               <p id="loadingText"></p>
+           </div>
+        
           <!-- Pinned Loading Line -->
           <div class="loading-line"></div>
         </div>
@@ -112,7 +117,7 @@
         <!-- ==========================================================
            SECTION 1: Available Download Section
            ========================================================== -->
-        <div id="mainContentSection" style="display: none;">
+        <div id="mainContentSection">
           <div class="info-box">
             <h3>What is the CODM Public Test Build?</h3>
             <p>
@@ -162,21 +167,79 @@
         </div>
 
         <!-- ==========================================================
-           SECTION 2: Links Section Only (Instructions Removed)
+           SECTION 2: Links Section Only (Hardcoded for SEO/YouTube Bots)
            ========================================================== -->
         <div class="links-section-wrapper">
-          <!-- Links container (Always rendered in DOM for SEO crawlers, locked/blurred by default) -->
-          <div id="linksContainer">
-            <div class="loading-box">
-                <div class="loader"></div>
-                <p id="loadingText">Loading official download links...</p>
+          <!-- Links container with hardcoded skeletons matching links.js -->
+          <div id="linksContainer" class="links-locked">
+            
+            <!-- 1. iOS TestFlight -->
+            <div class="link-box">
+                <div class="link-title">
+                  <span id="device-0"><i class="fa-brands fa-apple"></i> iOS (TestFlight)</span>
+                  <span class="lu-status-badge unknown">Checking...</span>
+                </div>
+                <div class="link-row">
+                    <img src="assets/images/codm-ts-logo-ios.png" alt="App Icon" class="link-app-icon" id="icon-0">
+                    <div class="link" id="url-0">https://testflight.apple.com/join/7M4pPKqb</div>
+                </div>
+                <div class="link-actions">
+                    <a href="https://testflight.apple.com/join/7M4pPKqb" target="_blank" rel="noopener noreferrer" class="download-btn" id="anchor-0">
+                        <i class="fa-solid fa-download"></i> Download
+                    </a>
+                    <button onclick="copyLink('url-0', this)">
+                         <i class="fa-regular fa-copy"></i> Copy Link
+                    </button>
+                </div>
             </div>
+
+            <!-- 2. Android 32-bit -->
+            <div class="link-box">
+                <div class="link-title">
+                  <span id="device-1"><i class="fa-brands fa-android"></i> Android (32-bit)</span>
+                  <span class="lu-status-badge unknown">Checking...</span>
+                </div>
+                <div class="link-row">
+                    <img src="assets/images/codm-ts-logo-A32.png" alt="App Icon" class="link-app-icon" id="icon-1">
+                    <div class="link" id="url-1">https://ms.spr.ly/CODM_32bit_0611</div>
+                </div>
+                <div class="link-actions">
+                    <a href="https://ms.spr.ly/CODM_32bit_0611" target="_blank" rel="noopener noreferrer" class="download-btn" id="anchor-1">
+                        <i class="fa-solid fa-download"></i> Download
+                    </a>
+                    <button onclick="copyLink('url-1', this)">
+                         <i class="fa-regular fa-copy"></i> Copy Link
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. Android 64-bit -->
+            <div class="link-box">
+                <div class="link-title">
+                  <span id="device-2"><i class="fa-brands fa-android"></i> Android (64-bit)</span>
+                  <span class="lu-status-badge unknown">Checking...</span>
+                </div>
+                <div class="link-row">
+                    <img src="assets/images/codm-ts-logo-A64.png" alt="App Icon" class="link-app-icon" id="icon-2">
+                    <div class="link" id="url-2">https://ms.spr.ly/CODM_64bit_0611</div>
+                </div>
+                <div class="link-actions">
+                    <a href="https://ms.spr.ly/CODM_64bit_0611" target="_blank" rel="noopener noreferrer" class="download-btn" id="anchor-2">
+                        <i class="fa-solid fa-download"></i> Download
+                    </a>
+                    <button onclick="copyLink('url-2', this)">
+                         <i class="fa-regular fa-copy"></i> Copy Link
+                    </button>
+                </div>
+            </div>
+
           </div>
           
           <noscript>
             <p>Please enable JavaScript to view the official CODM Public Test Build download links.</p>
           </noscript>
         </div>
+
 
         <!-- ==========================================================
            SECTION 3: Notification Section (Server Closed)
@@ -199,11 +262,11 @@
         </div>
 
         <!-- ==========================================================
-           SECTION 4: Verification Section (In-Flow Page Section)
+           SECTION 4: Verification Section
            ========================================================== -->
 
         <!-- ==========================================================
-           SECTION 5: Instructions Box (Moved Below Verification)
+           SECTION 5: Instructions Box
            ========================================================== -->
         <div class="instructions-box">
           <div class="instructions-title"><i class="fa-solid fa-circle-info fa-beat-fade"></i> How to use the links:</div>

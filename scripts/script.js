@@ -84,8 +84,11 @@ function renderLinksHtml() {
     }).join('');
 }
 
+/**
+ * Compares hardcoded DOM elements with testServerData.links 
+ * and updates them if discrepancies are found, while injecting dynamic statuses.
+ */
 function loadLinks() {
-    const container = document.getElementById("linksContainer");
     const lastUpdated = document.getElementById("lastUpdated");
     const badgeContainer = document.getElementById("buildBadgeContainer");
     const serverClosedSection = document.getElementById("serverClosedSection");
@@ -95,7 +98,7 @@ function loadLinks() {
             throw new Error("Data not loaded");
         }
 
-        // 1. Define Badge Logic
+        // 1. Define Global Server Status Badge
         let statusBadge = "";
         if (testServerData.status === 1) {
             statusBadge = `<span class="lu-status-badge">Online</span>`;
@@ -105,12 +108,12 @@ function loadLinks() {
             statusBadge = `<span class="lu-status-badge unknown">Unknown</span>`;
         }
         
-        // 2. Inject the Last Updated metadata date and Status Badge (Only once)
+        // 2. Inject Last Updated metadata date and Status Badge
         lastUpdated.innerHTML = `
             ${statusBadge} Last Updated: <strong>${testServerData.lastUpdated}</strong>
         `;
 
-        // 3. Inject the dynamic Season/Build Info
+        // 3. Inject Dynamic Season/Build Info
         if (badgeContainer) {
             badgeContainer.innerHTML = `
                 <div class="build-info-wrapper">
@@ -123,8 +126,49 @@ function loadLinks() {
             `;
         }
 
-        // 4. Always render download card assets into DOM for SEO crawlers
-        container.innerHTML = renderLinksHtml();
+        // 4. Compare hardcoded HTML elements with links.js and update if data differs
+        testServerData.links.forEach((link, index) => {
+            const deviceEl = document.getElementById(`device-${index}`);
+            const iconEl = document.getElementById(`icon-${index}`);
+            const urlEl = document.getElementById(`url-${index}`);
+            const anchorEl = document.getElementById(`anchor-${index}`);
+            
+            if (deviceEl && iconEl && urlEl && anchorEl) {
+                const currentUrl = urlEl.innerText.trim();
+                const expectedUrl = link.url.trim();
+                
+                // Compare and update if links.js contains newer/different data
+                if (currentUrl !== expectedUrl || !iconEl.src.includes(link.icon)) {
+                    urlEl.innerText = link.url;
+                    anchorEl.href = link.url;
+                    iconEl.src = `assets/images/${link.icon}`;
+                    deviceEl.innerHTML = link.device;
+                }
+                
+                // Dynamically update individual link status badges inside the card title
+                const linkBox = deviceEl.closest('.link-box');
+                if (linkBox) {
+                    const titleEl = linkBox.querySelector('.link-title');
+                    const linkStatus = (link.status !== undefined) ? link.status : testServerData.status;
+                    let badgeHtml = "";
+                    
+                    if (linkStatus === 1) {
+                        badgeHtml = `<span class="lu-status-badge">Online</span>`;
+                    } else if (linkStatus === 0) {
+                        badgeHtml = `<span class="lu-status-badge offline">Offline</span>`;
+                    } else {
+                        badgeHtml = `<span class="lu-status-badge unknown">Unknown</span>`;
+                    }
+                    
+                    let existingBadge = titleEl.querySelector('.lu-status-badge');
+                    if (existingBadge) {
+                        existingBadge.outerHTML = badgeHtml;
+                    } else {
+                        titleEl.insertAdjacentHTML('beforeend', badgeHtml);
+                    }
+                }
+            }
+        });
 
         // 5. Control Notification Section (Section 3) and Verification based on status
         if (testServerData.status === 1) {
@@ -132,13 +176,11 @@ function loadLinks() {
             
             injectVerificationSection();
             
-            // Wait 1 sec after links are loaded before showing verification
             setTimeout(() => {
                 showVerification(); 
             }, 1000);
         } else {
             if (serverClosedSection) serverClosedSection.style.display = "block";
-            // If offline, lock/blur links by default until force show is clicked or verified
             const linksContainer = document.getElementById("linksContainer");
             if (linksContainer) {
                 linksContainer.classList.add("links-locked");
@@ -147,36 +189,27 @@ function loadLinks() {
         }
     } catch (error) {
         lastUpdated.innerHTML = `<i class="fa-solid fa-rocket"></i> Last Updated: <strong>Unavailable</strong>`;
-        container.innerHTML = `
-            <div class="load-error">
-                <h2><i class="fa-solid fa-triangle-exclamation"></i> Unable to Load Download Links</h2>
-                <p>The download link data could not be loaded at this time.</p>
-            </div>
-        `;
         console.error(error);
     }
 }
 
 function forceShowLinks() {
-    const container = document.getElementById("linksContainer");
     const serverClosedSection = document.getElementById("serverClosedSection");
     if (typeof testServerData === "undefined" || !testServerData.links) return;
 
-    // Hide the server closed notification section
     if (serverClosedSection) {
         serverClosedSection.style.display = "none";
     }
 
-    container.innerHTML = renderLinksHtml();
     injectVerificationSection();
-    showVerification(); // Triggers the verification process even when the server is offline
+    showVerification(); 
 
-    // Smoothly scroll to the verification section
     const verifySection = document.getElementById("verifySection");
     if (verifySection) {
         verifySection.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 }
+
 
 function copyLink(id, button) {
     const text = document.getElementById(id).innerText.trim();
@@ -336,25 +369,23 @@ function unlockLinks() {
  */
 function setLoaderState(state) {
     const loaders = document.querySelectorAll(".progress-loader");
-    const content = document.getElementById('mainContentSection');
-    const badgeContainer = document.getElementById('buildBadgeContainer'); // Grab the badge
+    const loadingBox = document.querySelector(".hero-banner-wrapper .loading-box");
+    const badgeContainer = document.getElementById('buildBadgeContainer');
     
     if (state === 'start') {
         loaders.forEach(loader => loader.classList.add("active"));
-        content.style.display = 'none';
-        content.style.opacity = '0';
-        if (badgeContainer) badgeContainer.classList.remove('visible'); // Hide badge on restart
+        if (loadingBox) loadingBox.classList.remove("hidden"); // Show loading box
+        if (badgeContainer) badgeContainer.classList.remove('visible');
     } else if (state === 'finish') {
         loaders.forEach(loader => {
             loader.classList.remove("active");
             loader.classList.add("finished");
         });
         
-        content.style.display = 'block';
+        // Hide the loading box completely once data is loaded
+        if (loadingBox) loadingBox.classList.add("hidden");
         
-        // Trigger both animations simultaneously
         setTimeout(() => {
-            content.style.opacity = '1';
             if (badgeContainer) badgeContainer.classList.add('visible');
         }, 50); 
     }
