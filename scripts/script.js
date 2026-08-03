@@ -54,9 +54,9 @@ function renderLinksHtml() {
         let statusBadge = "";
         
         if (linkStatus === 1) {
-            statusBadge = `<span class="lu-status-badge">Online</span>`;
+            statusBadge = `<span class="lu-status-badge">Live</span>`;
         } else if (linkStatus === 0) {
-            statusBadge = `<span class="lu-status-badge offline">Offline</span>`;
+            statusBadge = `<span class="lu-status-badge offline">Closed</span>`;
         } else {
             statusBadge = `<span class="lu-status-badge unknown">Unknown</span>`;
         }
@@ -101,9 +101,9 @@ function loadLinks() {
         // 1. Define Global Server Status Badge
         let statusBadge = "";
         if (testServerData.status === 1) {
-            statusBadge = `<span class="lu-status-badge">Online</span>`;
+            statusBadge = `<span class="lu-status-badge">Live</span>`;
         } else if (testServerData.status === 0) {
-            statusBadge = `<span class="lu-status-badge offline">Offline</span>`;
+            statusBadge = `<span class="lu-status-badge offline">Closed</span>`;
         } else {
             statusBadge = `<span class="lu-status-badge unknown">Unknown</span>`;
         }
@@ -153,9 +153,9 @@ function loadLinks() {
                     let badgeHtml = "";
                     
                     if (linkStatus === 1) {
-                        badgeHtml = `<span class="lu-status-badge">Online</span>`;
+                        badgeHtml = `<span class="lu-status-badge">Live</span>`;
                     } else if (linkStatus === 0) {
-                        badgeHtml = `<span class="lu-status-badge offline">Offline</span>`;
+                        badgeHtml = `<span class="lu-status-badge offline">Closed</span>`;
                     } else {
                         badgeHtml = `<span class="lu-status-badge unknown">Unknown</span>`;
                     }
