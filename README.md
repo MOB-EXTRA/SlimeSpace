@@ -41,10 +41,13 @@ This project utilizes **GitHub Actions** to automatically build and deploy updat
 If you are updating this project on Android via Termux:
 
 ```bash
-# Navigate to project directory
-cd /storage/emulated/0/Download/SlimeSpace
+# Navigate to the PTB Hub project directory
+cd /storage/emulated/0/Download/VileTempest_CODmTestServerDLink
 
-# Add, commit, and push updates
+# Verify remote repository connection
+git remote -v
+
+# Stage, commit, and push updates
 git add .
-git commit -m "Update SlimeSpace application files"
+git commit -m "Update PTB download links and build status"
 git push origin main
