@@ -1,6 +1,6 @@
 const SPACES = {
-  hangul: '\u3164',
   nbsp: '\u00A0',
+  hangul: '\u3164',
   braille: '\u2800',
   enquad: '\u2000'
 };
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.insertSpace = function() {
     const selectedType = spaceSelect.value;
-    const spaceChar = SPACES[selectedType] || SPACES.hangul;
+    const spaceChar = SPACES[selectedType] || SPACES.nbsp;
     
     const start = inputEl.selectionStart;
     const end = inputEl.selectionEnd;
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.copySpaceOnly = function() {
     const selectedType = spaceSelect.value;
-    const spaceChar = SPACES[selectedType] || SPACES.hangul;
+    const spaceChar = SPACES[selectedType] || SPACES.nbsp;
 
     navigator.clipboard.writeText(spaceChar).then(() => {
       showToast("Space character copied!");
