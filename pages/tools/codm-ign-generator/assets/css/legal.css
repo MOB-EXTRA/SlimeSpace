@@ -1,0 +1,108 @@
+/* 
+=====================================================================
+LEGAL & TERMS PAGE STYLES (<body class="legal-page">)
+=====================================================================
+*/
+
+/* Adjust layout container when on the legal page */
+body.legal-page {
+  justify-content: flex-start;
+  padding: 40px 20px;
+}
+
+/* Center and expand the main container for reading */
+.legal-card {
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 36px 32px;
+}
+
+.legal-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.legal-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+
+.legal-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary-accent);
+  letter-spacing: -0.01em;
+}
+
+.effective-date {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.legal-block h3 {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.legal-block p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.legal-block strong {
+  color: #ffffff;
+}
+
+.legal-list {
+  margin-top: 10px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.legal-list li {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.legal-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg, 
+    transparent 0%, 
+    rgba(168, 85, 247, 0.3) 50%, 
+    transparent 100%
+  );
+  margin: 32px 0;
+}
+
+/* Mobile Responsiveness for Legal Page */
+@media (max-width: 600px) {
+  .legal-card {
+    padding: 24px 18px;
+  }
+  
+  .legal-header-row {
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
+  }
+
+  .legal-title {
+    font-size: 1.25rem;
+  }
+}
