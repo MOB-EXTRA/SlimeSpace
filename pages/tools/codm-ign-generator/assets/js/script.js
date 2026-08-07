@@ -11,7 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const toastEl = document.getElementById('toast');
   const counterEl = document.getElementById('charCounter');
 
-  if (!inputEl) return;
+  // Early return if core generator elements are missing (e.g. on legal.html)
+  if (!inputEl || !spaceSelect || !toastEl || !counterEl) return;
 
   function updateCharCounter() {
     const currentLength = inputEl.value.length;
@@ -22,6 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
   inputEl.addEventListener('input', updateCharCounter);
 
   window.insertSpace = function() {
+    if (inputEl.value.length >= 14) {
+      showToast("Maximum length reached (14 chars)", true);
+      return;
+    }
+
     const selectedType = spaceSelect.value;
     const spaceChar = SPACES[selectedType] || SPACES.nbsp;
     
@@ -30,6 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const text = inputEl.value;
 
     inputEl.value = text.substring(0, start) + spaceChar + text.substring(end);
+
+    if (inputEl.value.length > 14) {
+      inputEl.value = inputEl.value.substring(0, 14);
+    }
+
     updateCharCounter();
     inputEl.focus();
     inputEl.setSelectionRange(start + spaceChar.length, start + spaceChar.length);
@@ -63,6 +74,32 @@ document.addEventListener("DOMContentLoaded", () => {
     updateCharCounter();
     inputEl.focus();
   };
+
+  window.shareSite = function() {
+    const shareData = {
+      title: 'CODM Invisible Space & Name Formatter — SlimeSpace',
+      text: 'Generate clean Unicode spaces tailored for Call of Duty: Mobile IGN customization!',
+      url: window.location.href
+    };
+
+    if (navigator.share) {
+      navigator.share(shareData).catch((err) => {
+        if (err.name !== 'AbortError') {
+          copyShareFallback();
+        }
+      });
+    } else {
+      copyShareFallback();
+    }
+  };
+
+  function copyShareFallback() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      showToast("Site link copied to clipboard!");
+    }).catch(() => {
+      showToast("Failed to copy site link", true);
+    });
+  }
 
   function showToast(message, isError = false) {
     toastEl.textContent = message;

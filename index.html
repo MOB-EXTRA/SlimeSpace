@@ -43,7 +43,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- CSS Link Updated for assets/css/ folder -->
+  <!-- CSS Link -->
   <link rel="stylesheet" href="assets/css/style.css" />
 
   <!-- Structured Data (JSON-LD) -->
@@ -72,6 +72,20 @@
 
     <!-- Header / Hero Section -->
     <header class="hero-section">
+      <!-- Top Navigation Bar for Header Utilities -->
+      <nav class="top-nav-bar">
+        <button type="button" class="top-nav-btn" onclick="shareSite()" aria-label="Share Hub">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+          <span>Share Hub</span>
+        </button>
+      </nav>
+
       <div class="brand-badge">
         <img src="assets/images/favicon.png" alt="SlimeSpace Logo" class="brand-logo" width="32" height="32" />
         <span class="brand-name">SlimeSpace</span>
@@ -110,9 +124,9 @@
           <span class="card-badge">Web Tool</span>
         </div>
         <h3 class="card-title">CODM Invisible Space Generator</h3>
-        <p class="card-desc">
-          Generate custom Unicode space characters (U+00A0, Hangul U+3164) engineered specifically for Call of Duty: Mobile name bypasses and invisible IGN setups.
-        </p>
+          <p class="card-desc">
+            Generate custom Unicode space characters (U+00A0, Hangul U+3164) engineered specifically for Call of Duty: Mobile custom spacing and unique IGN setups.
+          </p>
         <div class="card-tags">
           <span class="tag">Unicode</span>
           <span class="tag">CODM</span>
@@ -133,9 +147,9 @@
           <span class="card-badge pulse">Live Updates</span>
         </div>
         <h3 class="card-title">CODM Public Test Server Links</h3>
-        <p class="card-desc">
-          Get fast access to direct official download links for upcoming Call of Duty: Mobile Public Test Builds (Android APKs & iOS TestFlight slots).
-        </p>
+          <p class="card-desc">
+            Get quick access to compiled official Call of Duty: Mobile Public Test Build download links (Android APKs & iOS TestFlight) as they are released.
+          </p>
         <div class="card-tags">
           <span class="tag">Test Server</span>
           <span class="tag">APK Downloads</span>
@@ -205,14 +219,17 @@
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2026 SlimeSpace Hub. Developed by <strong>Vile Tempest Official</strong>.</p>
+        <p>&copy; 2026 SlimeSpace Hub. <br>Developed by <strong>Vile Tempest Official</strong>.</p>
         <span class="version-tag">v2.0.0 • Production</span>
       </div>
     </footer>
 
   </div>
 
-  <!-- JS Script Link Updated for assets/js/ folder -->
+  <!-- Notification Toast Container -->
+  <div id="toast" class="toast" role="status" aria-live="polite">Link copied to clipboard!</div>
+
+  <!-- JS Script Link -->
   <script src="assets/js/script.js"></script>
 </body>
 </html>
