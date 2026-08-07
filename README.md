@@ -1,6 +1,6 @@
 # 🧪 SlimeSpace — CODM Invisible Space & Name Generator
 
-SlimeSpace is a lightweight, mobile-optimized web application designed to generate invisible Unicode spaces (such as Hangul Filler `U+3164`) specifically tailored for Call of Duty: Mobile (CODM) name bypasses and custom In-Game Names (IGNs).
+SlimeSpace is a lightweight, mobile-optimized web application designed to generate invisible Unicode spaces (featuring Non-Breaking Space / Compact Space `U+00A0` as the tested default) specifically tailored for Call of Duty: Mobile (CODM) name bypasses and custom In-Game Names (IGNs).
 
 ![SlimeSpace Banner](logo.png)
 
@@ -8,7 +8,7 @@ SlimeSpace is a lightweight, mobile-optimized web application designed to genera
 
 ## ✨ Features
 
-* **Multiple Unicode Space Methods:** Switch between Hangul Filler (`U+3164`), Braille Blank (`U+2800`), En Quad Space (`U+2000`), and Non-Breaking Space (`U+00A0`).
+* **Multiple Unicode Space Methods:** Switch between Non-Breaking Space (`U+00A0` — Default / CODM Tested), Hangul Filler (`U+3164`), Braille Blank (`U+2800`), and En Quad Space (`U+2000`).
 * **Live IGN Character Counter:** Track your character limit in real time ($0 / 14$ characters max for CODM).
 * **One-Click Quick Tools:** Insert spaces instantly or copy invisible spaces directly to your clipboard.
 * **CODM Rename Guidance:** Built-in notice reminding users to rename via **Inventory $\rightarrow$ Rename Card $\rightarrow$ Use** to prevent name reset glitches.
@@ -28,7 +28,7 @@ SlimeSpace is a lightweight, mobile-optimized web application designed to genera
 ## 🚀 Live Demo
 
 Access the live tool here:  
-👉 **[SlimeSpace Generator](https://mob-extra.github.io/codm-space-generator/)**
+👉 **[SlimeSpace Generator](https://mob-extra.github.io/SlimeSpace/)**
 
 ---
 
@@ -41,13 +41,13 @@ This project utilizes **GitHub Actions** to automatically build and deploy updat
 If you are updating this project on Android via Termux:
 
 ```bash
-# Navigate to the PTB Hub project directory
-cd /storage/emulated/0/Download/VileTempest_CODmTestServerDLink
+# Navigate to the SlimeSpace project directory
+cd /storage/emulated/0/Download/SlimeSpace
 
 # Verify remote repository connection
 git remote -v
 
 # Stage, commit, and push updates
 git add .
-git commit -m "Update PTB download links and build status"
+git commit -m "Update SlimeSpace features and documentation"
 git push origin main
