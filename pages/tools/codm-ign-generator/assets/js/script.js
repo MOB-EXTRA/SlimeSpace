@@ -76,15 +76,16 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   window.shareSite = function() {
+    const shareUrl = 'https://mob-extra.github.io/SlimeSpace/pages/tools/codm-ign-generator/';
     const shareData = {
       title: 'CODM Invisible Space & Name Formatter — SlimeSpace',
       text: 'Generate clean Unicode spaces tailored for Call of Duty: Mobile IGN customization!',
-      url: window.location.href
+      url: shareUrl
     };
 
     if (navigator.share) {
       navigator.share(shareData).catch((err) => {
-        if (err.name !== 'AbortError') {
+        if (err.name !== 'AbortError' && err.name !== 'NotAllowedError') {
           copyShareFallback();
         }
       });
@@ -94,10 +95,11 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   function copyShareFallback() {
-    navigator.clipboard.writeText(window.location.href).then(() => {
-      showToast("Site link copied to clipboard!");
+    const shareUrl = 'https://mob-extra.github.io/SlimeSpace/pages/tools/codm-ign-generator/';
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      showToast("Tool link copied to clipboard!");
     }).catch(() => {
-      showToast("Failed to copy site link", true);
+      showToast("Failed to copy tool link", true);
     });
   }
 
