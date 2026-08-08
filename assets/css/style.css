@@ -1,4 +1,8 @@
-/* Core Dark Palette */
+/* ==========================================================================
+   1. GLOBAL VARIABLES & CSS RESET
+   ========================================================================== */
+
+/* Core Dark Palette & Theme Variables */
 :root {
   --bg-dark: #070c18;
   --bg-card: rgba(15, 23, 42, 0.75);
@@ -10,16 +14,33 @@
   --text-muted: #94a3b8;
   --text-dim: #64748b;
 
+  /* Default Cyan/Blue Scheme */
   --accent-cyan: #38bdf8;
   --accent-blue: #3b82f6;
   --accent-red: #ef4444;
   --glow-cyan: rgba(56, 189, 248, 0.15);
+
+  /* CODM Theme Colors */
+  --codm-gold: #f59e0b;
+  --codm-gold-dark: #d97706;
+  --codm-gold-glow: rgba(245, 158, 11, 0.15);
+
+  /* YouTube Theme Colors */
+  --yt-red: #ff0000;
+  --yt-red-dark: #cc0000;
+  --yt-red-glow: rgba(255, 0, 0, 0.15);
 }
 
+/* Reset & Base HTML Elements */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 body {
@@ -27,19 +48,18 @@ body {
   background-color: var(--bg-dark);
   color: var(--text-main);
   min-height: 100vh;
-  width: 100%; /* Ensures body takes full viewport width */
+  width: 100%;
   display: flex;
-  flex-direction: column; /* Explicitly set flex direction */
-  align-items: center; /* Centers site-container horizontally */
+  flex-direction: column;
+  align-items: center;
   position: relative;
-  overflow-x: hidden;
   padding: 24px 16px;
 }
 
-html, body {
-  overflow-x: hidden;
-  max-width: 100vw;
-}
+
+/* ==========================================================================
+   2. LAYOUT & BACKGROUND EFFECTS
+   ========================================================================== */
 
 /* Background Ambient Lighting FX */
 .bg-glow-top {
@@ -65,17 +85,22 @@ html, body {
   z-index: 0;
 }
 
+/* Main Container Wrapper */
 .site-container {
   width: 100%;
   max-width: 900px;
-  flex-grow: 1; /* Forces container to expand fully */
+  flex-grow: 1;
   z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 36px;
 }
 
-/* Hero Section */
+
+/* ==========================================================================
+   3. HEADER / HERO SECTION (<header class="hero-section">)
+   ========================================================================== */
+
 .hero-section {
   text-align: center;
   display: flex;
@@ -126,6 +151,7 @@ html, body {
   transform: translateY(0);
 }
 
+/* Brand Badge & Status Pill */
 .brand-badge {
   display: inline-flex;
   align-items: center;
@@ -171,6 +197,7 @@ html, body {
   box-shadow: 0 0 8px var(--accent-cyan);
 }
 
+/* Hero Titles & Creator Card */
 .hero-title {
   font-size: 2.2rem;
   font-weight: 800;
@@ -219,7 +246,11 @@ html, body {
   opacity: 0.8;
 }
 
-/* Section Divider */
+
+/* ==========================================================================
+   4. SECTION DIVIDER (<div class="section-divider">)
+   ========================================================================== */
+
 .section-divider {
   border-top: 1px solid var(--border-color);
   padding-top: 24px;
@@ -237,7 +268,11 @@ html, body {
   margin-top: 2px;
 }
 
-/* Projects Grid */
+
+/* ==========================================================================
+   5. PROJECTS GRID & CARDS (<main class="projects-grid">)
+   ========================================================================== */
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
@@ -341,7 +376,18 @@ html, body {
   border-radius: 6px;
 }
 
-/* Action Buttons */
+/* Card Action Row & Buttons */
+.card-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.card-actions .card-btn {
+  flex: 1;
+}
+
 .card-btn {
   display: inline-flex;
   align-items: center;
@@ -354,56 +400,57 @@ html, body {
   font-size: 0.9rem;
   text-decoration: none;
   transition: all 0.2s ease;
-}
-
-.primary-btn {
+  border: none;
+  /* Default Cyan Action Button */
   background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
   color: #000;
 }
 
-.primary-btn:hover {
+.card-btn:hover {
   filter: brightness(1.1);
 }
 
-.secondary-btn {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-main);
-  border: 1px solid var(--border-color);
+.card-btn.codm-btn {
+  background: linear-gradient(135deg, var(--codm-gold), var(--codm-gold-dark));
+  color: #000;
 }
 
-.secondary-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  border-color: var(--text-muted);
+.card-btn.yt-btn {
+  background: linear-gradient(135deg, var(--yt-red), var(--yt-red-dark));
+  color: #ffffff;
 }
 
-/* Modern Toast Notification Styling */
-.toast {
-  visibility: hidden;
-  min-width: 240px;
-  background-color: var(--accent-cyan);
-  color: #070c18;
-  font-weight: 700;
-  text-align: center;
+.card-share-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   border-radius: 10px;
-  padding: 14px 20px;
-  position: fixed;
-  z-index: 100;
-  top: 28px;
-  left: 50%;
-  transform: translateX(-50%) translateY(10px);
-  font-size: 0.9rem;
-  opacity: 0;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.toast.show {
-  visibility: visible;
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
+.card-share-btn:hover {
+  background: rgba(56, 189, 248, 0.12);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  transform: translateY(-2px);
 }
 
-/* Modern Professional Footer Styling */
+.card-share-btn:active {
+  transform: translateY(0);
+}
+
+
+/* ==========================================================================
+   6. FOOTER SECTION (<footer class="site-footer">)
+   ========================================================================== */
+
 .site-footer {
   border-top: 1px solid var(--border-color);
   padding-top: 32px;
@@ -450,7 +497,7 @@ html, body {
   line-height: 1.5;
 }
 
-/* Mobile Development Fun Fact Badge */
+/* Mobile Development Badge */
 .mobile-fact-badge {
   display: inline-flex;
   align-items: center;
@@ -532,7 +579,42 @@ html, body {
   border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
-/* Tablet & Desktop Layout Adjustment */
+
+/* ==========================================================================
+   7. NOTIFICATIONS & TOASTS (<div id="toast">)
+   ========================================================================== */
+
+.toast {
+  visibility: hidden;
+  min-width: 240px;
+  background-color: var(--accent-cyan);
+  color: #070c18;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 10px;
+  padding: 14px 20px;
+  position: fixed;
+  z-index: 100;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  font-size: 0.9rem;
+  opacity: 0;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+
+/* ==========================================================================
+   8. MEDIA QUERIES & RESPONSIVE DESIGN
+   ========================================================================== */
+
 @media (min-width: 640px) {
   .footer-top {
     flex-direction: row;

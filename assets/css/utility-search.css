@@ -1,0 +1,140 @@
+/* ==========================================================================
+   UTILITY SEARCH COMPONENT STYLES
+   ========================================================================== */
+
+/* Search Container Wrapper & Sticky Positioning */
+.sticky-search-wrapper {
+  position: sticky;
+  top: 16px;
+  width: 100%;
+  padding: 6px 0;
+  z-index: 100;
+  transition: opacity 0.2s ease;
+}
+
+/* Fixed State (Triggered when scrolled) */
+.sticky-search-wrapper.is-fixed {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 900px; /* Matches site-container width */
+  width: calc(100% - 32px); /* Matches body 16px horizontal padding */
+  padding: 12px 0;
+  background: rgba(7, 12, 24, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Search Box Box Styling */
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid var(--border-color);
+  border-radius: 99px;
+  padding: 10px 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Focus States */
+.search-box:focus-within {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 16px var(--glow-cyan);
+  background: rgba(15, 23, 42, 0.95);
+}
+
+/* Search Icon */
+.search-icon {
+  color: var(--text-dim);
+  flex-shrink: 0;
+  transition: color 0.2s ease;
+}
+
+.search-box:focus-within .search-icon {
+  color: var(--accent-cyan);
+}
+
+/* Input Field */
+.search-box input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 2px 0;
+}
+
+.search-box input::placeholder {
+  color: var(--text-dim);
+}
+
+/* Clear Search Dismiss Button */
+.clear-search-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.1rem;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  cursor: pointer;
+  line-height: 1;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.clear-search-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--accent-red);
+}
+
+/* ==========================================================================
+   NO RESULTS FALLBACK STATE (<div id="noResultsState">)
+   ========================================================================== */
+
+.no-results-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 48px 20px;
+  background: var(--bg-card);
+  border: 1px dashed var(--border-color);
+  border-radius: 16px;
+  color: var(--text-muted);
+  margin: 20px 0;
+}
+
+.no-results-box svg {
+  color: var(--text-dim);
+  margin-bottom: 12px;
+}
+
+.no-results-box h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.no-results-box p {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  max-width: 400px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
