@@ -109,13 +109,18 @@ document.addEventListener("DOMContentLoaded", () => {
   if (searchInput) {
 
     // Common shortcuts mapped ONLY to words that exist inside your HTML cards
+    // "new keyword": "target card text"
     const searchAliases = {
       "codm test": "test server",
       "codm test server": "test server",
       "ptb": "public test server",
       "beta": "public test server",
       "ign": "invisible space",
-      "space": "invisible space"
+      "space": "invisible space",
+      "code": "redeem codes",
+      "codes": "redeem codes",
+      "redeem": "redeem codes",
+      "redeem code": "redeem codes"
     };
 
     function filterUtilities(query, updateUrl = true) {
