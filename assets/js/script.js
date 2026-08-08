@@ -104,16 +104,34 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // DYNAMIC SEARCH & URL FILTERING SYSTEM
+  // DYNAMIC SMART SEARCH & URL FILTERING SYSTEM
   // ==========================================
   if (searchInput) {
 
+    // Common shortcuts mapped ONLY to words that exist inside your HTML cards
+    const searchAliases = {
+      "codm test": "test server",
+      "codm test server": "test server",
+      "ptb": "public test server",
+      "beta": "public test server",
+      "ign": "invisible space",
+      "space": "invisible space"
+    };
+
     function filterUtilities(query, updateUrl = true) {
-      const cleanQuery = query.trim().toLowerCase();
+      let cleanQuery = query.trim().toLowerCase();
       
       if (clearBtn) {
         clearBtn.style.display = cleanQuery.length > 0 ? 'flex' : 'none';
       }
+
+      // Check if user input directly matches an alias
+      if (searchAliases[cleanQuery]) {
+        cleanQuery = searchAliases[cleanQuery];
+      }
+
+      // Tokenize search query into individual words
+      const queryTokens = cleanQuery.split(/\s+/).filter(token => token.length > 0);
 
       const cards = document.querySelectorAll('.project-card');
       let visibleCount = 0;
@@ -121,7 +139,10 @@ document.addEventListener("DOMContentLoaded", () => {
       cards.forEach((card) => {
         const textContent = card.innerText.toLowerCase();
         
-        if (textContent.includes(cleanQuery)) {
+        // Match card if ALL search word tokens exist in card text
+        const isMatch = queryTokens.length === 0 || queryTokens.every(token => textContent.includes(token));
+
+        if (isMatch) {
           card.style.display = '';
           visibleCount++;
         } else {
@@ -135,8 +156,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (updateUrl) {
         const url = new URL(window.location.href);
-        if (cleanQuery) {
-          url.searchParams.set('search', cleanQuery);
+        if (query.trim()) {
+          url.searchParams.set('search', query.trim());
         } else {
           url.searchParams.delete('search');
           url.searchParams.delete('q');
