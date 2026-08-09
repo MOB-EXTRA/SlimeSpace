@@ -1,4 +1,4 @@
-# 🧪 SlimeSpace — Gaming Utilities & Web Tools Hub
+# 🧪 SlimeSpace — Gaming Utilities & Web Tools Hub (Vile Tempest Official | MOB EXTRA)
 
 SlimeSpace is a lightweight, mobile-first web hub featuring custom gaming utilities, Unicode name generators, and Call of Duty: Mobile resources. Developed by **Vile Tempest Official @ MOB EXTRA**.
 
