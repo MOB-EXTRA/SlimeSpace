@@ -460,7 +460,7 @@ body {
   border-color: var(--codm-gold);
 }
 
-/* Disclaimer Checkbox Wrapper Styling */
+/* Universal Checkbox Fix for iOS and all devices */
 .disclaimer-checkbox-wrapper {
   margin-top: 0.85rem;
   margin-bottom: 0.5rem;
@@ -477,14 +477,24 @@ body {
   gap: 10px;
   cursor: pointer;
   position: relative;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .checkbox-container input[type="checkbox"] {
-  margin-top: 3px;
+  -webkit-appearance: checkbox !important;
+  appearance: checkbox !important;
+  display: inline-block !important;
+  position: relative !important;
+  margin-top: 3px !important;
+  width: 18px !important;
+  height: 18px !important;
+  min-width: 18px !important;
+  min-height: 18px !important;
   accent-color: var(--codm-gold);
-  width: 16px;
-  height: 16px;
   cursor: pointer;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .checkbox-label-text {

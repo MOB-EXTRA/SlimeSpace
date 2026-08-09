@@ -127,11 +127,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 </button>
               </div>
 
-              <!-- Disclaimer Checkbox Added -->
+              <!-- Disclaimer Checkbox -->
               <div class="disclaimer-checkbox-wrapper">
                 <label class="checkbox-container">
                   <input type="checkbox" id="disclaimerCheckbox" />
-                  <span class="checkmark"></span>
                   <span class="checkbox-label-text">
                     I acknowledge that <strong>MOB EXTRA</strong> acts as an independent portal for official developer links. I agree that <strong>MOB EXTRA</strong> does not host these packages and is not responsible for their content. I proceed at my own risk and discretion.
                   </span>
