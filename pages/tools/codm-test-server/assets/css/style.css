@@ -61,11 +61,14 @@ body {
 
 /* Re-enable input interactions for typing verification */
 .anti-select-body input,
-.anti-select-body button {
+.anti-select-body button,
+.anti-select-body label,
+.anti-select-body input[type="checkbox"] {
   -webkit-user-select: text !important;
   -moz-user-select: text !important;
   -ms-user-select: text !important;
   user-select: text !important;
+  pointer-events: auto !important;
 }
 
 .site-wrapper {
@@ -389,6 +392,7 @@ body {
   display: flex;
   gap: 10px;
   max-width: 420px;
+  margin-bottom: 0.85rem;
 }
 
 .input-action-group input {
@@ -407,6 +411,43 @@ body {
 
 .input-action-group input:focus {
   border-color: var(--codm-gold);
+}
+
+/* Disclaimer Checkbox Wrapper Styling */
+.disclaimer-checkbox-wrapper {
+  margin-top: 0.85rem;
+  margin-bottom: 0.5rem;
+  max-width: 480px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--codm-border);
+  border-radius: 4px;
+  padding: 10px 12px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-top: 3px;
+  accent-color: var(--codm-gold);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.checkbox-label-text {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.checkbox-label-text strong {
+  color: var(--codm-gold);
 }
 
 .error-feedback {

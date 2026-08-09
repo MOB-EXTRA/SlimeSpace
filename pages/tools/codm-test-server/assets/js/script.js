@@ -11,13 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // DOM Elements
   const bodyEl = document.getElementById("pageBody");
-  const ytAppBtn = document.getElementById("ytAppBtn");
-  const verifyBtn = document.getElementById("verifyBtn");
-  const verifyInput = document.getElementById("verificationInput");
-  const errorMsg = document.getElementById("verifyErrorMsg");
   const serverInfoContainer = document.getElementById("serverInfoContainer");
   const linksGridContainer = document.getElementById("linksGridContainer");
-  const gatewayBox = document.getElementById("verificationGateway");
+  const verificationGatewayContainer = document.getElementById("verificationGatewayContainer");
 
   // Prevent Context Menu & Keyboard Copy Shortcuts before verification
   document.addEventListener("contextmenu", (e) => {
@@ -69,13 +65,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (typeof notARobot !== "undefined") {
         verifyData = notARobot;
-        if (ytAppBtn) ytAppBtn.href = verifyData.codeSource;
       }
 
       if (typeof testServerData !== "undefined") {
         loadedServerData = testServerData;
         renderServerData(testServerData);
       }
+
+      // Inject the verification gateway section dynamically ONLY AFTER data/links are fully loaded
+      renderVerificationGateway();
 
     } catch (err) {
       console.error(err);
@@ -87,19 +85,91 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Dynamic Verification Logic
-  if (verifyBtn) verifyBtn.addEventListener("click", handleVerification);
-  if (verifyInput) {
-    verifyInput.addEventListener("keypress", (e) => {
-      if (e.key === 'Enter') handleVerification();
-    });
+  // Dynamic Injection of Verification Gateway keeping original wording/layout + disclaimer checkbox
+  function renderVerificationGateway() {
+    if (!verificationGatewayContainer) return;
+
+    const ytUrl = verifyData ? verifyData.codeSource : "#";
+
+    verificationGatewayContainer.innerHTML = `
+      <section id="verificationGateway" class="glass-card">
+        <div class="card-badge-header">
+          <div class="icon-box">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <h2>Access Verification</h2>
+            <p class="sub-text">Confirm community access code to view links</p>
+          </div>
+        </div>
+
+        <div class="verify-steps">
+          <div class="step-item">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <p>Find the official access code provided in our community video guide.</p>
+              <a href="${ytUrl}" id="ytAppBtn" target="_blank" rel="noopener noreferrer" class="btn-tactical btn-yt">
+                <i class="fa-brands fa-youtube"></i>
+                <span>Open Video Guide</span>
+              </a>
+            </div>
+          </div>
+
+          <div class="step-item">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <p>Enter the access code below to display download buttons.</p>
+              <div class="input-action-group">
+                <input type="password" id="verificationInput" placeholder="Enter code" autocomplete="off" />
+                <button id="verifyBtn" type="button" class="btn-tactical btn-primary">
+                  <span>Verify Code</span>
+                  <i class="fa-solid fa-key"></i>
+                </button>
+              </div>
+
+              <!-- Disclaimer Checkbox Added -->
+              <div class="disclaimer-checkbox-wrapper">
+                <label class="checkbox-container">
+                  <input type="checkbox" id="disclaimerCheckbox" />
+                  <span class="checkmark"></span>
+                  <span class="checkbox-label-text">
+                    I acknowledge that <strong>MOB EXTRA</strong> acts as an independent portal for official developer links. I agree that <strong>MOB EXTRA</strong> does not host these packages and is not responsible for their content. I proceed at my own risk and discretion.
+                  </span>
+                </label>
+              </div>
+
+              <p id="verifyErrorMsg" class="error-feedback"></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+
+    // Bind event listeners for newly injected elements
+    const verifyBtn = document.getElementById("verifyBtn");
+    const verifyInput = document.getElementById("verificationInput");
+
+    if (verifyBtn) verifyBtn.addEventListener("click", handleVerification);
+    if (verifyInput) {
+      verifyInput.addEventListener("keypress", (e) => {
+        if (e.key === 'Enter') handleVerification();
+      });
+    }
   }
 
   function handleVerification() {
-    const inputVal = verifyInput.value.trim();
+    const verifyInput = document.getElementById("verificationInput");
+    const disclaimerCheckbox = document.getElementById("disclaimerCheckbox");
+    const inputVal = verifyInput ? verifyInput.value.trim() : "";
 
     if (!verifyData) {
       showError("System initializing. Please wait.");
+      return;
+    }
+
+    // Check if disclaimer box is checked
+    if (disclaimerCheckbox && !disclaimerCheckbox.checked) {
+      showError("You must accept the disclaimer agreement before verifying.");
       return;
     }
 
@@ -107,11 +177,12 @@ document.addEventListener("DOMContentLoaded", () => {
       unlockHub();
     } else {
       showError("Incorrect code. Please check video guide.");
-      verifyInput.value = "";
+      if (verifyInput) verifyInput.value = "";
     }
   }
 
   function showError(msg) {
+    const errorMsg = document.getElementById("verifyErrorMsg");
     if (errorMsg) {
       errorMsg.textContent = msg;
       errorMsg.style.display = "block";
@@ -126,9 +197,11 @@ document.addEventListener("DOMContentLoaded", () => {
       bodyEl.removeAttribute("onselectstart");
     }
     if (linksGridContainer) linksGridContainer.classList.remove("locked");
+    
+    const gatewayBox = document.getElementById("verificationGateway");
     if (gatewayBox) gatewayBox.style.display = "none";
     
-    // Smoothly scroll down to the Season 6 info container
+    // Smoothly scroll down to the Season info container
     if (serverInfoContainer) {
       serverInfoContainer.scrollIntoView({ 
         behavior: 'smooth', 

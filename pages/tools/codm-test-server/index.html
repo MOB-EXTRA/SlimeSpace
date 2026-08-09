@@ -128,7 +128,7 @@
         </div>
       </section>
 
-      <!-- 1. TEST SERVER INFO SECTION (ALWAYS VISIBLE) -->
+      <!-- 1. TEST SERVER INFO SECTION -->
       <section id="serverInfoContainer" class="server-status-card">
         <div class="loading-state">
           <i class="fa-solid fa-circle-notch fa-spin"></i>
@@ -144,46 +144,8 @@
         </div>
       </section>
 
-      <!-- 3. VERIFICATION PROCESS (BELOW BLURRED DOWNLOADS) -->
-      <section id="verificationGateway" class="glass-card">
-        <div class="card-badge-header">
-          <div class="icon-box">
-            <i class="fa-solid fa-shield-halved"></i>
-          </div>
-          <div>
-            <h2>Access Verification</h2>
-            <p class="sub-text">Confirm community access code to view links</p>
-          </div>
-        </div>
-
-        <div class="verify-steps">
-          <div class="step-item">
-            <div class="step-number">1</div>
-            <div class="step-content">
-              <p>Find the official access code provided in our community video guide.</p>
-              <a href="#" id="ytAppBtn" target="_blank" rel="noopener noreferrer" class="btn-tactical btn-yt">
-                <i class="fa-brands fa-youtube"></i>
-                <span>Open Video Guide</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="step-item">
-            <div class="step-number">2</div>
-            <div class="step-content">
-              <p>Enter the access code below to display download buttons.</p>
-              <div class="input-action-group">
-                <input type="password" id="verificationInput" placeholder="Enter code" autocomplete="off" />
-                <button id="verifyBtn" type="button" class="btn-tactical btn-primary">
-                  <span>Verify Code</span>
-                  <i class="fa-solid fa-key"></i>
-                </button>
-              </div>
-              <p id="verifyErrorMsg" class="error-feedback"></p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <!-- 3. DYNAMIC VERIFICATION GATEWAY CONTAINER (Injected via JS after links load) -->
+      <div id="verificationGatewayContainer"></div>
 
       <!-- 4. MAIN DIRECTORY FALLBACK SECTION -->
       <section class="fallback-site-card">
