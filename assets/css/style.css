@@ -473,6 +473,53 @@ body {
   gap: 8px;
 }
 
+/* MOB EXTRA Footer Brand Badge Styling */
+.mob-extra-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 212, 255, 0.04);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+  padding: 8px 14px;
+  border-radius: 6px;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.mob-extra-badge:hover {
+  border-color: rgba(0, 212, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.mob-extra-logo {
+  width: 42px;
+  height: 42px;
+  object-type: contain;
+  filter: drop-shadow(0 0 8px rgba(0, 212, 255, 0.4));
+}
+
+.mob-extra-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.mob-extra-subtitle {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+}
+
+.mob-extra-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.5px;
+  font-family: var(--font-heading, sans-serif);
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
 .footer-logo-group {
   display: flex;
   align-items: center;
