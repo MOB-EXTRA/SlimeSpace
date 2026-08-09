@@ -31,6 +31,7 @@ SlimeSpace/
 │           ├── index.html
 │           └── legal.html
 ├── index.html                 # Root landing hub
+├── legal.html
 └── README.md
 ```
 
