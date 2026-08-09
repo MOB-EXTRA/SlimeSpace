@@ -69,19 +69,19 @@
     <header class="tactical-card hub-header">
       <div class="header-top">
         <a href="../../../index.html" class="back-link">
-          <i class="fa-solid fa-arrow-left"></i>
-          <span>Hub Main</span>
+          <i class="fa-solid fa-home"></i>
+          <span>Home</span>
         </a>
         <div class="header-actions">
-          <button type="button" class="btn-share" id="shareBtn" onclick="shareHub()" title="Share Test Server Info">
-            <i class="fa-solid fa-share-nodes"></i>
-            <span>Share</span>
-          </button>
           <div class="brand-pill">
             <img src="assets/images/favicon.png" alt="SlimeSpace Logo" class="header-logo" width="16" height="16" onerror="this.style.display='none'" />
             <span class="status-pulse"></span>
             <span>SlimeSpace Utilities</span>
           </div>
+          <button type="button" class="btn-share" id="shareBtn" onclick="shareHub()" title="Share Test Server Info">
+            <i class="fa-solid fa-share-nodes"></i>
+            <span>Share</span>
+          </button>
         </div>
       </div>
 
@@ -102,7 +102,7 @@
         </div>
         
         <p class="download-intro">
-          Test builds are released periodically per season. Verify access below to unlock direct download mirrors.
+          Official Public Test Builds (PTB) are released periodically ahead of upcoming major seasons. These builds allow players to preview new content, maps, weapons, and features before they hit the live global servers. Make sure to download the appropriate package matching your device specifications.
         </p>
 
         <div class="platform-notes-grid">
@@ -126,6 +126,24 @@
             </p>
           </div>
         </div>
+
+        <div class="download-instructions-box">
+          <div class="instructions-header">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Download Instructions</span>
+          </div>
+          
+          <ol class="instructions-list">
+            <li>Tap the <strong>Download</strong> button to begin.</li>
+            <li>If the download freezes, encounters errors, or stalls, tap <strong>Copy Link</strong> instead.</li>
+            <li>Open your device's primary web browser (such as <em>Chrome</em> or <em>Safari</em>) and paste the URL directly into the address bar.</li>
+          </ol>
+        
+          <p class="instructions-why">
+            Why? Heavy downloads frequently glitch or stall inside social media apps or in-app web views. Using a dedicated external browser is significantly more reliable.
+          </p>
+        </div>
+
       </section>
 
       <!-- 1. TEST SERVER INFO SECTION -->
@@ -144,7 +162,6 @@
         </div>
       </section>
 
-      <!-- 3. DYNAMIC VERIFICATION GATEWAY CONTAINER (Injected via JS after links load) -->
       <div id="verificationGatewayContainer"></div>
 
       <!-- 4. MAIN DIRECTORY FALLBACK SECTION -->
@@ -191,7 +208,7 @@
 
     <!-- Footer -->
     <footer class="hub-footer">
-      <p>&copy; 2026 SlimeSpace. Built by <strong>Vile Tempest Official</strong>.</p>
+      <p>&copy; 2026 SlimeSpace Toolset. <br>Powered by <strong>Vile Tempest Official</strong>.</p>
       <div class="footer-sub-links" style="margin-top: 6px;">
         <a href="Legal.html" class="legal-link">Terms & Privacy Disclaimer</a>
       </div>
