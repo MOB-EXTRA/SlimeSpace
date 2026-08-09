@@ -4,12 +4,17 @@
 
 /* Search Container Wrapper & Sticky Positioning */
 .sticky-search-wrapper {
-  position: sticky;
-  top: 16px;
+  position: relative;
   width: 100%;
   padding: 6px 0;
   z-index: 100;
-  transition: opacity 0.2s ease;
+}
+
+/* Permanent Layout Spacer */
+.sticky-search-spacer {
+  display: none;
+  width: 100%;
+  height: 0px;
 }
 
 /* Fixed State (Triggered when scrolled) */
@@ -25,6 +30,25 @@
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  /* Smooth entry animation */
+  animation: searchSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* When fixed, activate the spacer's height */
+.sticky-search-wrapper.is-fixed + .sticky-search-spacer {
+  display: block;
+  height: 56px; /* Matches the search bar layout height */
+}
+
+@keyframes searchSlideDown {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 /* Search Box Box Styling */
