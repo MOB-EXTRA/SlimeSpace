@@ -387,11 +387,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Button 2: Allow Notifications (Redirects to main PTB hub)
+  // Button 2: Allow Notifications (Opens main PTB hub in a new tab)
   if (btnAllowNotif) {
     btnAllowNotif.addEventListener("click", () => {
       dismissPopup();
-      window.location.href = MAIN_PTB_HUB_URL;
+      window.open(MAIN_PTB_HUB_URL, '_blank', 'noopener,noreferrer');
     });
   }
 
