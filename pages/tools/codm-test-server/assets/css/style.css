@@ -278,6 +278,33 @@ body {
   line-height: 1.4;
 }
 
+/* Platform Instructions Grid Layout */
+.platform-instructions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.instruction-column {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--codm-border);
+  border-radius: 4px;
+  padding: 1rem;
+}
+
+.instruction-column.android-instruction-box {
+  border-left: 3px solid #22c55e;
+}
+
+.instruction-column.ios-instruction-box {
+  border-left: 3px solid var(--codm-gold);
+}
+
+.general-launch-box {
+  border-left-color: var(--accent-cyan) !important;
+}
+
 /* Download Instructions Box Styles */
 .download-instructions-box {
   background: rgba(0, 0, 0, 0.3);
