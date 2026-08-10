@@ -19,7 +19,7 @@ SlimeSpace/
 │       └── script.js          # Interactive scripts
 ├── pages/
 │   └── tools/
-│       └── codm-ign-generator/ # CODM Space Generator Tool 
+│       └── codm-ign-generator/ # CODM Space Generator Tool
 │           ├── assets/
 │           │   ├── css/
 │           │   │   ├── style.css
