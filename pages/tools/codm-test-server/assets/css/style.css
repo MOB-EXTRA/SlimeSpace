@@ -849,6 +849,109 @@ body {
   transition: opacity 0.3s ease;
 }
 
+/* ==========================================================================
+   NOTIFICATION POPUP STYLES
+   ========================================================================== */
+.ptb-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(11, 13, 15, 0.85);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  padding: 1rem;
+}
+
+.ptb-popup-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.ptb-popup-card {
+  background: var(--codm-card-bg);
+  border: 1px solid var(--codm-border);
+  border-top: 3px solid var(--codm-gold);
+  border-radius: 4px;
+  max-width: 440px;
+  width: 100%;
+  padding: 1.5rem;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+  text-align: center;
+  animation: popupSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes popupSlideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.ptb-popup-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--codm-gold);
+  margin-bottom: 0.75rem;
+}
+
+.ptb-popup-header i {
+  font-size: 1.3rem;
+}
+
+.ptb-popup-header h3 {
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.ptb-popup-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+}
+
+.ptb-popup-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-popup-primary {
+  background: var(--codm-gold);
+  color: #000;
+  width: 100%;
+}
+.btn-popup-primary:hover { background: var(--codm-gold-hover); }
+
+.btn-popup-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--codm-border) !important;
+  color: var(--text-muted);
+  width: 100%;
+}
+.btn-popup-secondary:hover { color: #fff; border-color: var(--codm-gold) !important; }
+
+.btn-popup-close {
+  background: rgba(230, 34, 34, 0.15);
+  border: 1px solid var(--codm-red) !important;
+  color: var(--codm-red);
+  width: 100%;
+}
+.btn-popup-close:hover { background: var(--codm-red); color: #fff; }
+
+
 .hub-footer {
   text-align: center;
   margin-top: 2.5rem;

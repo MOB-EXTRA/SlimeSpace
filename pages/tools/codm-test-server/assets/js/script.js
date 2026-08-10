@@ -356,4 +356,50 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   initHubData();
+  
+    // --- Notification Popup Logic ---
+  const notificationPopup = document.getElementById("ptbNotificationPopup");
+  const btnMaybeLater = document.getElementById("btnMaybeLater");
+  const btnAllowNotif = document.getElementById("btnAllowNotif");
+  const btnClosePopup = document.getElementById("btnClosePopup");
+
+  // Main PTB Hub target URL for notification permission
+  const MAIN_PTB_HUB_URL = "https://mob-extra.github.io/CODM.TestServer.DL.Link";
+
+  // Function to dismiss/hide the popup
+  function dismissPopup() {
+    if (notificationPopup) {
+      notificationPopup.classList.remove("active");
+    }
+  }
+
+  // Trigger popup strictly 5 seconds after page load, regardless of network states or data fetches
+  setTimeout(() => {
+    if (notificationPopup) {
+      notificationPopup.classList.add("active");
+    }
+  }, 5000);
+
+  // Button 1: Maybe Later
+  if (btnMaybeLater) {
+    btnMaybeLater.addEventListener("click", () => {
+      dismissPopup();
+    });
+  }
+
+  // Button 2: Allow Notifications (Redirects to main PTB hub)
+  if (btnAllowNotif) {
+    btnAllowNotif.addEventListener("click", () => {
+      dismissPopup();
+      window.location.href = MAIN_PTB_HUB_URL;
+    });
+  }
+
+  // Button 3: Done / Close
+  if (btnClosePopup) {
+    btnClosePopup.addEventListener("click", () => {
+      dismissPopup();
+    });
+  }
+  
 });

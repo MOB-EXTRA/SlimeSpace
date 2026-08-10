@@ -57,7 +57,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto+Condensed:wght@400;700&family=Teko:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Local Font Awesome --> 
+  <link rel="stylesheet" href="../../../assets/fontawesome-free-7.3.0-web/css/all.min.css">
 
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
@@ -218,6 +220,24 @@
   </div>
 
   <div id="toast" class="toast-popup" role="status" aria-live="polite"></div>
+  
+  <!-- Notification Prompt Popup -->
+  <div id="ptbNotificationPopup" class="ptb-popup-overlay">
+    <div class="ptb-popup-card">
+      <div class="ptb-popup-header">
+        <i class="fa-regular fa-bell fa-swing"></i>
+        <h3>CODM Public Test Build Alerts</h3>
+      </div>
+      <p class="ptb-popup-text">
+        Would you like to receive notifications every time CODM releases new public test builds? You can visit the main PTB hub instantly!
+      </p>
+      <div class="ptb-popup-buttons">
+        <button type="button" id="btnMaybeLater" class="btn-tactical btn-popup-secondary">Maybe Later</button>
+        <button type="button" id="btnAllowNotif" class="btn-tactical btn-popup-primary">Allow Notifications</button>
+        <button type="button" id="btnClosePopup" class="btn-tactical btn-popup-close">Done / Close</button>
+      </div>
+    </div>
+  </div>
 
   <script src="assets/js/script.js"></script>
 </body>
