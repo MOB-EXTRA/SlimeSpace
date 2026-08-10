@@ -120,7 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="step-content">
               <p>Enter the access code below to display download buttons.</p>
               <div class="input-action-group">
-                <input type="password" id="verificationInput" placeholder="Enter code" autocomplete="off" />
+                <input type="text" id="verificationInput" placeholder="Enter code" autocomplete="off" />
                 <button id="verifyBtn" type="button" class="btn-tactical btn-primary">
                   <span>Verify Code</span>
                   <i class="fa-solid fa-key"></i>
