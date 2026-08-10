@@ -305,8 +305,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const description = loadedServerData?.updateDescription || 'Official Call of Duty: Mobile PTB links for Android & iOS.';
 
     const shareTitle = `${season} — CODM Test Server Hub`;
-    const shareText = `🎮 ${season}\n📅 Release Date: ${releaseDate}\n📱 Platforms: Android (APK 32/64-Bit) & iOS (TestFlight)\n📝 Update Info: ${description}\n\nGet download links here:`;
-
+    const shareText = `📱 COD Mobile Public Test Server Download\n\n🎮 ${season}\n📅 Release Date: ${releaseDate}\n📱 Platforms: Android (APK 32/64-Bit) & iOS (TestFlight)\n📝 Update Info: ${description}\n\nGet download links here:`;
+    
     if (navigator.share) {
       navigator.share({
         title: shareTitle,
