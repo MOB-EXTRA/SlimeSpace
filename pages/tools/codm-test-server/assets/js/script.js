@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Remote PTB hub repo base URL
+  // Remote PTB hub repo base URL (Change this single variable to update the link globally)
   const REPO_BASE = "https://mob-extra.github.io/CODM.TestServer.DL.Link/";
   
   const VERIFY_DATA_URL = `${REPO_BASE}data/notarobot.js`;
@@ -232,6 +232,20 @@ document.addEventListener("DOMContentLoaded", () => {
           <p><strong><i class="fa-regular fa-calendar-check"></i> Release Date:</strong> ${releaseDateText}</p>
           <p><strong><i class="fa-solid fa-list-check"></i> Patch Summary:</strong> ${data.updateDescription || 'No description available.'}</p>
         </div>
+        ${!isOnline ? `
+        <div class="server-closed-notice" style="margin-top: 1rem; background: rgba(230, 34, 34, 0.08); border: 1px solid rgba(230, 34, 34, 0.3); border-left: 3px solid var(--codm-red); padding: 0.85rem 1rem; border-radius: 4px;">
+          <div style="display: flex; align-items: center; gap: 8px; color: var(--codm-red); font-family: var(--font-heading); font-size: 0.95rem; text-transform: uppercase; margin-bottom: 0.4rem;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Important Notice: Server Currently Closed</span>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 0.5rem;">
+            The public test server is currently offline. It is not recommended to download or install the APK packages at this time, as players are unable to log in or access the game servers while they are closed.
+          </p>
+          <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.4; margin: 0;">
+            To receive instant alerts when the new season is officially released, please visit <a href="${REPO_BASE}" target="_blank" rel="noopener noreferrer" style="color: var(--codm-gold); text-decoration: underline;">${REPO_BASE}</a> or the main site and enable or accept site notification permissions.
+          </p>
+        </div>
+        ` : ''}
       `;
     }
 
@@ -357,14 +371,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initHubData();
   
-    // --- Notification Popup Logic ---
+  // --- Notification Popup Logic ---
   const notificationPopup = document.getElementById("ptbNotificationPopup");
   const btnMaybeLater = document.getElementById("btnMaybeLater");
   const btnAllowNotif = document.getElementById("btnAllowNotif");
   const btnClosePopup = document.getElementById("btnClosePopup");
 
-  // Main PTB Hub target URL for notification permission
-  const MAIN_PTB_HUB_URL = "https://mob-extra.github.io/CODM.TestServer.DL.Link";
+  // Main PTB Hub target URL linked directly to REPO_BASE
+  const MAIN_PTB_HUB_URL = REPO_BASE;
 
   // Function to dismiss/hide the popup
   function dismissPopup() {
@@ -373,12 +387,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Trigger popup strictly 5 seconds after page load, regardless of network states or data fetches
+  // Trigger popup strictly 10 seconds after page load, regardless of network states or data fetches
   setTimeout(() => {
     if (notificationPopup) {
       notificationPopup.classList.add("active");
     }
-  }, 5000);
+  }, 10000);
 
   // Button 1: Maybe Later
   if (btnMaybeLater) {
