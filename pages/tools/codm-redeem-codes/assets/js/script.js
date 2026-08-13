@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const prevBtn = document.getElementById('prevPageBtn');
   const nextBtn = document.getElementById('nextPageBtn');
   const lastUpdatedEl = document.getElementById('last-updated-date');
+  const dynamicHeadingDateEl = document.getElementById('dynamicHeadingDate');
+  const pageSeoTitleEl = document.getElementById('page-seo-title');
 
   let parsedCodes = [];
   let filteredCodes = [];
@@ -48,21 +50,42 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ==========================================
-  // HEADER UPDATE: SYNC LAST UPDATED DATE
+  // DYNAMIC HEADER & TITLE UPDATE BASED ON NEWEST CODE
   // ==========================================
-  function updateLastUpdatedHeader(codes) {
-    if (!lastUpdatedEl) return;
+  function updateDynamicHeaders(codes) {
+    if (!codes || codes.length === 0) return;
 
-    let latestDate = "Not available";
+    let latestDateStr = "Not available";
+    let latestTimestamp = 0;
 
     for (const item of codes) {
       if (item.date && item.date.toLowerCase() !== "not available") {
-        latestDate = item.date;
-        break;
+        latestDateStr = item.date;
+        latestTimestamp = item.timestamp;
+        break; // Since it's sorted, the first valid item is the newest
       }
     }
 
-    lastUpdatedEl.textContent = latestDate;
+    // 1. Update Last Updated Banner Text
+    if (lastUpdatedEl) {
+      lastUpdatedEl.textContent = latestDateStr;
+    }
+
+    // 2. Extract Month & Year from the Newest Code's Date (not current system clock)
+    if (latestTimestamp > 0) {
+      const latestDateObj = new Date(latestTimestamp);
+      const monthYearString = latestDateObj.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }); // e.g., "August 2026"
+
+      // Update Main Heading Title tag
+      if (dynamicHeadingDateEl) {
+        dynamicHeadingDateEl.textContent = `(${monthYearString})`;
+      }
+
+      // Update Browser SEO Tab Title Tag
+      if (pageSeoTitleEl) {
+        pageSeoTitleEl.textContent = `Active CODM Redeem Codes ${monthYearString} — Global & Garena | SlimeSpace`;
+      }
+    }
   }
 
   // ==========================================
@@ -96,9 +119,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return 'unknown';
   }
 
-  // Initialize Data
+  // Initialize Data & Sync Headers to Newest Code
   parsedCodes = parseRedeemCodesData(redeemCodesData);
-  updateLastUpdatedHeader(parsedCodes);
+  updateDynamicHeaders(parsedCodes);
   applyFilters();
 
   // ==========================================
