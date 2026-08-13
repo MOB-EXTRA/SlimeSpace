@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <label class="checkbox-container">
                   <input type="checkbox" id="disclaimerCheckbox" />
                   <span class="checkbox-label-text">
-                    <strong>Disclaimer:</strong> <br>I acknowledge that <strong>MOB EXTRA</strong> acts as an independent portal for official developer links. I agree that <strong>MOB EXTRA</strong> does not host these packages and is not responsible for their content. I proceed at my own risk and discretion.
+                    <strong>Disclaimer:</strong> <br>I acknowledge that <strong>SlimeSpace</strong> acts as an independent portal for official developer links. I agree that <strong>SlimeSpace</strong> does not host these packages and is not responsible for their content. I proceed at my own risk and discretion.
                   </span>
                 </label>
               </div>

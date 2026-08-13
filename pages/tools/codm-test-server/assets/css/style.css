@@ -204,6 +204,20 @@ body {
   text-transform: uppercase;
 }
 
+.credits-box {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--codm-border);
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.credits-link {
+  color: var(--accent-cyan);
+  text-decoration: none;
+  font-weight: 600;
+}
+
 /* Available Downloads Section */
 .available-downloads-card {
   background: var(--codm-card-bg);
