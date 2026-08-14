@@ -1,6 +1,10 @@
 // Centralized CODM Redeem Codes Database (TOP NEWEST)
 const redeemCodesData = `
 
+r-code: DDIAZCZWNR
+version: Garena
+data-added: Aug 14, 2026
+
 r-code: WELOVEMOM
 version: Garena
 data-added: Aug 12, 2026
