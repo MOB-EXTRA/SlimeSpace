@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const serverStatusBadge = isOnline
       ? `<span class="status-badge online"><i class="fa-solid fa-circle-check"></i> Server Live</span>`
-      : `<span class="status-badge closed"><i class="fa-solid fa-circle-xmark"></i> Server Closed</span>`;
+      : `<span class="status-badge closed"><i class="fa-solid fa-exclamation fa-fade"></i> Server Closed</span>`;
 
     const releaseDateText = data.releaseDate || data.lastUpdated || 'Recently Released';
 
@@ -235,11 +235,11 @@ document.addEventListener("DOMContentLoaded", () => {
         ${!isOnline ? `
         <div class="server-closed-notice" style="margin-top: 1rem; background: rgba(230, 34, 34, 0.08); border: 1px solid rgba(230, 34, 34, 0.3); border-left: 3px solid var(--codm-red); padding: 0.85rem 1rem; border-radius: 4px;">
           <div style="display: flex; align-items: center; gap: 8px; color: var(--codm-red); font-family: var(--font-heading); font-size: 0.95rem; text-transform: uppercase; margin-bottom: 0.4rem;">
-            <i class="fa-solid fa-triangle-exclamation"></i>
+            <i class="fa-solid fa-triangle-exclamation fa-beat-fade"></i>
             <span>Important Notice: Server Currently Closed</span>
           </div>
           <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 0.5rem;">
-            The public test server is currently offline. It is not recommended to download or install the APK packages at this time, as players are unable to log in or access the game servers while they are closed.
+            The COD Mobile public test server is currently closed. It is not recommended to download or install the APK packages at this time, as players are unable to log in or access the game servers while they are closed.
           </p>
           <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.4; margin: 0;">
             To receive instant alerts when the new season is officially released, please visit <a href="${REPO_BASE}" target="_blank" rel="noopener noreferrer" style="color: var(--codm-gold); text-decoration: underline;">${REPO_BASE}</a> or the main site and enable or accept site notification permissions.
@@ -270,7 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const linkOnline = item.status !== undefined ? item.status === 1 : isOnline;
           const cardBadge = linkOnline
             ? `<span class="status-badge online card-status-badge"><i class="fa-solid fa-circle-check"></i> Server Live</span>`
-            : `<span class="status-badge closed card-status-badge"><i class="fa-solid fa-circle-xmark"></i> Server Closed</span>`;
+            : `<span class="status-badge closed card-status-badge"><i class="fa-solid fa-exclamation fa-fade"></i> Server Closed</span>`;
 
           return `
             <div class="link-card" style="background-image: linear-gradient(180deg, rgba(11,13,15,0.72) 0%, rgba(11,13,15,0.95) 100%), url('${bgUrl}'); background-size: cover; background-position: center;">
