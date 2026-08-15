@@ -729,9 +729,8 @@ body {
 .url-preview-box .url-text {
   color: var(--accent-cyan);
   text-decoration: none;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;       /* Allows the link to wrap onto multiple lines */
+  word-break: break-all;     /* Forces long URLs to break cleanly and fit the width */
   font-family: monospace;
   width: 100%;
 }
