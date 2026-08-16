@@ -1,9 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Remote PTB hub repo base URL (Change this single variable to update the link globally)
-  const REPO_BASE = "https://mob-extra.github.io/CODM.TestServer.DL.Link/";
-  
-  const VERIFY_DATA_URL = `${REPO_BASE}data/notarobot.js`;
-  const LINKS_DATA_URL = `${REPO_BASE}data/links.js`;
+  // 3 Sequential Fallback Repositories for Shared Config Manifest (`codm-config.js`) using GitHub Pages
+  const repoConfigs = [
+    { url: "https://mob-extra.github.io/MOBEXTRA.github.shared-data-repo.1/codm-test-server/codm-config.js", name: "Repository 1", base: "https://mob-extra.github.io/MOBEXTRA.github.shared-data-repo.1/codm-test-server/" },
+    { url: "https://mob-extra.github.io/MOBEXTRA.github.shared-data-repo.2/codm-test-server/codm-config.js", name: "Repository 2", base: "https://mob-extra.github.io/MOBEXTRA.github.shared-data-repo.2/codm-test-server/" },
+    { url: "https://mob-extra.github.io/MOBEXTRA.github.shared-data-repo.3/codm-test-server/codm-config.js", name: "Repository 3", base: "https://mob-extra.github.io/MOBEXTRA.github.shared-data-repo.3/codm-test-server/" }
+  ];
+
+  let currentIndex = 0;
+  let activeRepoBase = repoConfigs[0].base;
+  let activeRepoName = repoConfigs[0].name;
 
   let isUnlocked = false;
   let verifyData = null;
@@ -45,23 +50,37 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  function loadScript(url) {
-    return new Promise((resolve, reject) => {
-      const script = document.createElement("script");
-      script.src = url;
-      script.async = true;
-      script.onload = () => resolve();
-      script.onerror = () => reject(new Error(`Failed to load ${url}`));
-      document.head.appendChild(script);
-    });
-  }
+  function loadSharedConfigWithFallback() {
+    if (currentIndex >= repoConfigs.length) {
+      console.error("Critical Error: All repositories failed.");
+      if (serverInfoContainer) {
+        serverInfoContainer.innerHTML = `
+          <div class="server-status-header">
+            <h3>CODM Test Server</h3>
+            <span class="status-badge closed"><i class="fa-solid fa-triangle-exclamation"></i> Error</span>
+          </div>
+          <div class="meta-row" style="text-align: center; padding: 1.5rem 0;">
+            <p style="color: var(--codm-red); font-weight: bold; margin-bottom: 0.75rem;"><i class="fa-solid fa-circle-exclamation"></i> All config sources failed!</p>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">Please contact the site admin via YouTube to report this issue.</p>
+            <a href="https://www.youtube.com/channel/UCbDtYZS08VvB6luAcyn08bQ" target="_blank" rel="noopener noreferrer" class="btn-tactical btn-yt" style="display: inline-flex; margin: 0 auto; text-decoration: none;">
+              <i class="fa-brands fa-youtube"></i>
+              <span>Contact via YouTube</span>
+            </a>
+          </div>
+        `;
+      }
+      return;
+    }
 
-  async function initHubData() {
-    try {
-      await Promise.all([
-        loadScript(VERIFY_DATA_URL),
-        loadScript(LINKS_DATA_URL)
-      ]);
+    const currentRepo = repoConfigs[currentIndex];
+    const script = document.createElement("script");
+    script.src = currentRepo.url;
+    script.async = true;
+
+    script.onload = function() {
+      console.log(`Config successfully loaded from ${currentRepo.name}`);
+      activeRepoBase = currentRepo.base;
+      activeRepoName = currentRepo.name;
 
       if (typeof notARobot !== "undefined") {
         verifyData = notARobot;
@@ -72,17 +91,16 @@ document.addEventListener("DOMContentLoaded", () => {
         renderServerData(testServerData);
       }
 
-      // Inject the verification gateway section dynamically ONLY AFTER data/links are fully loaded
       renderVerificationGateway();
+    };
 
-    } catch (err) {
-      console.error(err);
-      if (serverInfoContainer) {
-        serverInfoContainer.innerHTML = `
-          <p style="color: var(--codm-red); text-align: center;">Unable to load server data. Please try again later.</p>
-        `;
-      }
-    }
+    script.onerror = function() {
+      console.warn(`Repository #${currentIndex + 1} (${currentRepo.name}) failed. Switching to next repository...`);
+      currentIndex++;
+      loadSharedConfigWithFallback();
+    };
+
+    document.head.appendChild(script);
   }
 
   // Dynamic Injection of Verification Gateway keeping original wording/layout + disclaimer checkbox
@@ -217,8 +235,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const isOnline = data.status === 1;
     
     const serverStatusBadge = isOnline
-      ? `<span class="status-badge online"><i class="fa-solid fa-circle-check"></i> Server Live</span>`
-      : `<span class="status-badge closed"><i class="fa-solid fa-exclamation fa-fade"></i> Server Closed</span>`;
+      ? `<span class="status-badge online"><i class="fa-solid fa-wifi fa-beat-fade"></i> Server Live</span>`
+      : `<span class="status-badge closed"><i class="fa-solid fa-triangle-exclamation fa-beat-fade"></i> Server Closed</span>`;
 
     const releaseDateText = data.releaseDate || data.lastUpdated || 'Recently Released';
 
@@ -232,6 +250,11 @@ document.addEventListener("DOMContentLoaded", () => {
           <p><strong><i class="fa-regular fa-calendar-check"></i> Release Date:</strong> ${releaseDateText}</p>
           <p><strong><i class="fa-solid fa-list-check"></i> Patch Summary:</strong> ${data.updateDescription || 'No description available.'}</p>
         </div>
+        <!-- Repo Source Section -->
+        <div class="meta-row" style="margin-top: 0.75rem; border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 0.75rem; display: flex; align-items: center; justify-content: space-between;">
+          <p style="margin: 0; font-size: 0.88rem;"><strong><i class="fa-solid fa-server"></i> Repo Source:</strong> <span style="color: var(--codm-gold); font-family: var(--font-heading);">${activeRepoName}</span></p>
+          <span style="font-size: 0.75rem; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px;">Synchronized</span>
+        </div>
         ${!isOnline ? `
         <div class="server-closed-notice" style="margin-top: 1rem; background: rgba(230, 34, 34, 0.08); border: 1px solid rgba(230, 34, 34, 0.3); border-left: 3px solid var(--codm-red); padding: 0.85rem 1rem; border-radius: 4px;">
           <div style="display: flex; align-items: center; gap: 8px; color: var(--codm-red); font-family: var(--font-heading); font-size: 0.95rem; text-transform: uppercase; margin-bottom: 0.4rem;">
@@ -242,7 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
             The COD Mobile public test server is currently closed. It is not recommended to download or install the APK packages at this time, as players are unable to log in or access the game servers while they are closed.
           </p>
           <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.4; margin: 0;">
-            To receive instant alerts when the new season is officially released, please visit <a href="${REPO_BASE}" target="_blank" rel="noopener noreferrer" style="color: var(--codm-gold); text-decoration: underline;">${REPO_BASE}</a> or the main site and enable or accept site notification permissions.
+            To receive instant alerts when the new season is officially released, please enable site notification permissions.
           </p>
         </div>
         ` : ''}
@@ -253,10 +276,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.links && data.links.length > 0) {
         linksGridContainer.innerHTML = data.links.map(item => {
           let rawIcon = item.icon || "favicon.png";
-          let iconUrl = rawIcon.startsWith("http") ? rawIcon : `${REPO_BASE}assets/images/${rawIcon}`;
+          let iconUrl = rawIcon.startsWith("http") ? rawIcon : `${activeRepoBase}assets/images/${rawIcon}`;
 
           let rawBg = item.bg || item.image || rawIcon;
-          let bgUrl = rawBg.startsWith("http") ? rawBg : `${REPO_BASE}assets/images/${rawBg}`;
+          let bgUrl = rawBg.startsWith("http") ? rawBg : `${activeRepoBase}assets/images/${rawBg}`;
 
           const deviceHasIcon = /<i\b[^>]*>/i.test(item.device);
           let deviceTitleHTML = item.device;
@@ -269,8 +292,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const linkOnline = item.status !== undefined ? item.status === 1 : isOnline;
           const cardBadge = linkOnline
-            ? `<span class="status-badge online card-status-badge"><i class="fa-solid fa-circle-check"></i> Server Live</span>`
-            : `<span class="status-badge closed card-status-badge"><i class="fa-solid fa-exclamation fa-fade"></i> Server Closed</span>`;
+            ? `<span class="status-badge online card-status-badge"><i class="fa-solid fa-wifi fa-beat-fade"></i> Server Live</span>`
+            : `<span class="status-badge closed card-status-badge"><i class="fa-solid fa-triangle-exclamation fa-beat-fade"></i> Server Closed</span>`;
 
           return `
             <div class="link-card" style="background-image: linear-gradient(180deg, rgba(11,13,15,0.72) 0%, rgba(11,13,15,0.95) 100%), url('${bgUrl}'); background-size: cover; background-position: center;">
@@ -369,7 +392,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 2400);
   }
 
-  initHubData();
+  // Initialize data loading with sequential fallback across the 3 shared repos
+  loadSharedConfigWithFallback();
   
   // --- Notification Popup Logic ---
   const notificationPopup = document.getElementById("ptbNotificationPopup");
@@ -377,31 +401,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnAllowNotif = document.getElementById("btnAllowNotif");
   const btnClosePopup = document.getElementById("btnClosePopup");
 
-  // Main PTB Hub target URL linked directly to REPO_BASE
-  const MAIN_PTB_HUB_URL = REPO_BASE;
+  const MAIN_PTB_HUB_URL = "https://mob-extra.github.io/CODM.TestServer.DL.Link/";
 
-  // Function to dismiss/hide the popup
   function dismissPopup() {
     if (notificationPopup) {
       notificationPopup.classList.remove("active");
     }
   }
 
-  // Trigger popup strictly 10 seconds after page load, regardless of network states or data fetches
   setTimeout(() => {
     if (notificationPopup) {
       notificationPopup.classList.add("active");
     }
   }, 10000);
 
-  // Button 1: Maybe Later
   if (btnMaybeLater) {
     btnMaybeLater.addEventListener("click", () => {
       dismissPopup();
     });
   }
 
-  // Button 2: Allow Notifications (Opens main PTB hub in a new tab)
   if (btnAllowNotif) {
     btnAllowNotif.addEventListener("click", () => {
       dismissPopup();
@@ -409,11 +428,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Button 3: Done / Close
   if (btnClosePopup) {
     btnClosePopup.addEventListener("click", () => {
       dismissPopup();
     });
   }
-  
 });
