@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
   let verifyData = null;
   let loadedServerData = null; // Holds info for sharing
 
+  const MAIN_PTB_HUB_URL = "https://mob-extra.github.io/CODM.TestServer.DL.Link/";
+
   // DOM Elements
   const bodyEl = document.getElementById("pageBody");
   const serverInfoContainer = document.getElementById("serverInfoContainer");
@@ -236,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const serverStatusBadge = isOnline
       ? `<span class="status-badge online"><i class="fa-solid fa-wifi fa-beat-fade"></i> Server Live</span>`
-      : `<span class="status-badge closed"><i class="fa-solid fa-triangle-exclamation fa-beat-fade"></i> Server Closed</span>`;
+      : `<span class="status-badge closed"><i class="fa-solid fa-exclamation fa-fade"></i> Server Closed</span>`;
 
     const releaseDateText = data.releaseDate || data.lastUpdated || 'Recently Released';
 
@@ -265,7 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
             The COD Mobile public test server is currently closed. It is not recommended to download or install the APK packages at this time, as players are unable to log in or access the game servers while they are closed.
           </p>
           <p style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.4; margin: 0;">
-            To receive instant alerts when the new season is officially released, please enable site notification permissions.
+            To receive instant alerts when the new season is officially released, please visit <a href="${MAIN_PTB_HUB_URL}" target="_blank" rel="noopener noreferrer" style="color: var(--codm-gold); text-decoration: underline; word-break: break-all;">${MAIN_PTB_HUB_URL}</a> to enable site notification permissions.
           </p>
         </div>
         ` : ''}
@@ -293,7 +295,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const linkOnline = item.status !== undefined ? item.status === 1 : isOnline;
           const cardBadge = linkOnline
             ? `<span class="status-badge online card-status-badge"><i class="fa-solid fa-wifi fa-beat-fade"></i> Server Live</span>`
-            : `<span class="status-badge closed card-status-badge"><i class="fa-solid fa-triangle-exclamation fa-beat-fade"></i> Server Closed</span>`;
+            : `<span class="status-badge closed card-status-badge"><i class="fa-solid fa-exclamation fa-fade"></i> Server Closed</span>`;
 
           return `
             <div class="link-card" style="background-image: linear-gradient(180deg, rgba(11,13,15,0.72) 0%, rgba(11,13,15,0.95) 100%), url('${bgUrl}'); background-size: cover; background-position: center;">
@@ -400,8 +402,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnMaybeLater = document.getElementById("btnMaybeLater");
   const btnAllowNotif = document.getElementById("btnAllowNotif");
   const btnClosePopup = document.getElementById("btnClosePopup");
-
-  const MAIN_PTB_HUB_URL = "https://mob-extra.github.io/CODM.TestServer.DL.Link/";
 
   function dismissPopup() {
     if (notificationPopup) {
