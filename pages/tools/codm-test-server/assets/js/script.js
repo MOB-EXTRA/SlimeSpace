@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   let currentIndex = 0;
-  let activeRepoBase = repoConfigs[0].base;
   let activeRepoName = repoConfigs[0].name;
 
   let isUnlocked = false;
@@ -81,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     script.onload = function() {
       console.log(`Config successfully loaded from ${currentRepo.name}`);
-      activeRepoBase = currentRepo.base;
       activeRepoName = currentRepo.name;
 
       if (typeof notARobot !== "undefined") {
@@ -277,19 +275,30 @@ document.addEventListener("DOMContentLoaded", () => {
     if (linksGridContainer) {
       if (data.links && data.links.length > 0) {
         linksGridContainer.innerHTML = data.links.map(item => {
-          let rawIcon = item.icon || "favicon.png";
-          let iconUrl = rawIcon.startsWith("http") ? rawIcon : `${activeRepoBase}assets/images/${rawIcon}`;
+          // --- Dynamic Icon & Image Fallback Generation for Cleaned Repository Structure ---
+          let imgFile = 'codm-ts-logo-A64.png';
+          let faIconClass = 'fa-brands fa-android';
 
-          let rawBg = item.bg || item.image || rawIcon;
-          let bgUrl = rawBg.startsWith("http") ? rawBg : `${activeRepoBase}assets/images/${rawBg}`;
+          const deviceLower = item.device.toLowerCase();
+          if (deviceLower.includes('ios')) {
+            faIconClass = 'fa-brands fa-apple';
+            imgFile = 'codm-ts-logo-ios.png';
+          } else if (item.device.includes('32-bit')) {
+            imgFile = 'codm-ts-logo-A32.png';
+          } else if (item.device.includes('64-bit')) {
+            imgFile = 'codm-ts-logo-A64.png';
+          }
 
+          // Dynamic icon URL & background URL from local assets
+          let iconUrl = `assets/images/${imgFile}`;
+          let bgUrl = iconUrl;
+
+          // Ensure proper FontAwesome icon insertion in device title
           const deviceHasIcon = /<i\b[^>]*>/i.test(item.device);
           let deviceTitleHTML = item.device;
 
           if (!deviceHasIcon) {
-            const isIOS = item.device.toLowerCase().includes('ios');
-            const deviceIconClass = isIOS ? 'fa-brands fa-apple' : 'fa-brands fa-android';
-            deviceTitleHTML = `<i class="${deviceIconClass}"></i> ${item.device}`;
+            deviceTitleHTML = `<i class="${faIconClass}"></i> ${item.device}`;
           }
 
           const linkOnline = item.status !== undefined ? item.status === 1 : isOnline;

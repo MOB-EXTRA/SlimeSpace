@@ -109,7 +109,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (searchInput) {
 
     // Common shortcuts mapped ONLY to words that exist inside your HTML cards
-    // "new keyword": "target card text"
     const searchAliases = {
       "codm test": "test server",
       "codm test server": "test server",
@@ -174,6 +173,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Scroll page to top room on tap/focus of search bar
     searchInput.addEventListener('focus', () => {
       scrollToSearchBar();
+    });
+
+    // Hide keyboard when user clicks "Go" or presses "Enter" on mobile keyboard
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        searchInput.blur();
+        e.preventDefault();
+      }
     });
 
     // Input Event Listener
