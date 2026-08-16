@@ -236,7 +236,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const serverStatusBadge = isOnline
       ? `<span class="status-badge online"><i class="fa-solid fa-wifi fa-beat-fade"></i> Server Live</span>`
-      : `<span class="status-badge closed"><i class="fa-solid fa-exclamation fa-fade"></i> Server Closed</span>`;
+      : `<span class="status-badge closed"><i class="fa-solid fa-triangle-exclamation fa-beat-fade"></i> Server Closed</span>`;
 
     const releaseDateText = data.releaseDate || data.lastUpdated || 'Recently Released';
 
@@ -304,7 +304,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const linkOnline = item.status !== undefined ? item.status === 1 : isOnline;
           const cardBadge = linkOnline
             ? `<span class="status-badge online card-status-badge"><i class="fa-solid fa-wifi fa-beat-fade"></i> Server Live</span>`
-            : `<span class="status-badge closed card-status-badge"><i class="fa-solid fa-exclamation fa-fade"></i> Server Closed</span>`;
+            : `<span class="status-badge closed card-status-badge"><i class="fa-solid fa-triangle-exclamation fa-beat-fade"></i> Server Closed</span>`;
 
           return `
             <div class="link-card" style="background-image: linear-gradient(180deg, rgba(11,13,15,0.72) 0%, rgba(11,13,15,0.95) 100%), url('${bgUrl}'); background-size: cover; background-position: center;">
