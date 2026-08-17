@@ -1,4 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // 3 Sequential Fallback Repositories for Shared Redeem Codes Data (`redeem-codes.js`) using GitHub Pages
+  const repoConfigs = [
+    { url: "https://mob-extra.github.io/MOBEXTRA.github.shared-data-repo.1/codm-redeem-code/redeem-codes.js", name: "Repository 1" },
+    { url: "https://mob-extra.github.io/MOBEXTRA.github.shared-data-repo.2/codm-redeem-code/redeem-codes.js", name: "Repository 2" },
+    { url: "https://mob-extra.github.io/MOBEXTRA.github.shared-data-repo.3/codm-redeem-code/redeem-codes.js", name: "Repository 3" }
+  ];
+
+  let currentIndex = 0;
+  let activeRepoName = repoConfigs[0].name;
+
   const toastEl = document.getElementById('toast');
   const tableBody = document.getElementById('codesTableBody');
   const searchInput = document.getElementById('codeInputSearch');
@@ -11,10 +21,85 @@ document.addEventListener("DOMContentLoaded", () => {
   const dynamicHeadingDateEl = document.getElementById('dynamicHeadingDate');
   const pageSeoTitleEl = document.getElementById('page-seo-title');
 
+  // Create container for repo source info below the table/pagination if it doesn't exist
+  const appCard = document.querySelector('.app-card');
+  let repoSourceContainer = document.getElementById('repoSourceContainer');
+  if (!repoSourceContainer && appCard) {
+    repoSourceContainer = document.createElement('div');
+    repoSourceContainer.id = 'repoSourceContainer';
+    const paginationWrapper = document.querySelector('.pagination-wrapper');
+    if (paginationWrapper && paginationWrapper.parentNode) {
+      paginationWrapper.parentNode.insertBefore(repoSourceContainer, paginationWrapper.nextSibling);
+    } else {
+      appCard.appendChild(repoSourceContainer);
+    }
+  }
+
   let parsedCodes = [];
   let filteredCodes = [];
   let currentPage = 1;
   let rowsPerPage = 5;
+
+  function loadSharedConfigWithFallback() {
+    if (currentIndex >= repoConfigs.length) {
+      console.error("Critical Error: All redeem code repositories failed.");
+      if (tableBody) {
+        tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 2rem; color: #e74c3c;">
+          <p style="font-weight: bold; font-size: 0.95rem; margin-bottom: 0.5rem;">All config sources failed!</p>
+          <p style="color: var(--text-secondary); font-size: 0.82rem; margin-bottom: 1rem;">Please contact the site admin via YouTube to report this issue.</p>
+          <a href="https://www.youtube.com/channel/UCbDtYZS08VvB6luAcyn08bQ" target="_blank" rel="noopener noreferrer" style="color: #fff; background: #FF0000; padding: 6px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.78rem; display: inline-block;">
+            Contact via YouTube
+          </a>
+        </td></tr>`;
+      }
+      if (repoSourceContainer) {
+        repoSourceContainer.innerHTML = `
+          <div class="important-note-box mt-16" style="border-color: #e74c3c; background: rgba(231, 76, 60, 0.05);">
+            <span class="note-badge" style="color: #e74c3c;">⚠️ REPO SOURCE ERROR</span>
+            <p class="portal-info">All repository sources failed to load. Please notify the administrator via YouTube.</p>
+          </div>
+        `;
+      }
+      return;
+    }
+
+    const currentRepo = repoConfigs[currentIndex];
+    const script = document.createElement("script");
+    script.src = currentRepo.url;
+    script.async = true;
+
+    script.onload = function() {
+      activeRepoName = currentRepo.name;
+      if (typeof redeemCodesData !== "undefined") {
+        parsedCodes = parseRedeemCodesData(redeemCodesData);
+        updateDynamicHeaders(parsedCodes);
+        applyFilters();
+        renderRepoSourceInfo();
+      } else {
+        console.warn(`Repository #${currentIndex + 1} loaded but redeemCodesData is undefined. Switching...`);
+        currentIndex++;
+        loadSharedConfigWithFallback();
+      }
+    };
+
+    script.onerror = function() {
+      console.warn(`Repository #${currentIndex + 1} (${currentRepo.name}) failed. Switching to next repository...`);
+      currentIndex++;
+      loadSharedConfigWithFallback();
+    };
+
+    document.head.appendChild(script);
+  }
+
+  function renderRepoSourceInfo() {
+    if (!repoSourceContainer) return;
+    repoSourceContainer.innerHTML = `
+      <div class="meta-row" style="margin-top: 16px; border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; align-items: center; justify-content: space-between; font-size: 0.78rem;">
+        <p style="margin: 0; color: var(--text-secondary);"><strong>Repo Source:</strong> <span style="color: var(--accent-cyan); font-weight: 700;">${activeRepoName}</span></p>
+        <span style="font-size: 0.7rem; color: var(--text-secondary); background: rgba(255,255,255,0.03); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border-color);">Synchronized</span>
+      </div>
+    `;
+  }
 
   // ==========================================
   // PARSER: CONVERT TEXT STRING TO ARRAY
@@ -45,7 +130,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Sort Newest to Oldest by parsed date timestamp
     return result.sort((a, b) => b.timestamp - a.timestamp);
   }
 
@@ -62,26 +146,22 @@ document.addEventListener("DOMContentLoaded", () => {
       if (item.date && item.date.toLowerCase() !== "not available") {
         latestDateStr = item.date;
         latestTimestamp = item.timestamp;
-        break; // Since it's sorted, the first valid item is the newest
+        break;
       }
     }
 
-    // 1. Update Last Updated Banner Text
     if (lastUpdatedEl) {
       lastUpdatedEl.textContent = latestDateStr;
     }
 
-    // 2. Extract Month & Year from the Newest Code's Date (not current system clock)
     if (latestTimestamp > 0) {
       const latestDateObj = new Date(latestTimestamp);
-      const monthYearString = latestDateObj.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }); // e.g., "August 2026"
+      const monthYearString = latestDateObj.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
-      // Update Main Heading Title tag
       if (dynamicHeadingDateEl) {
         dynamicHeadingDateEl.textContent = `(${monthYearString})`;
       }
 
-      // Update Browser SEO Tab Title Tag
       if (pageSeoTitleEl) {
         pageSeoTitleEl.textContent = `Active CODM Redeem Codes ${monthYearString} — Global & Garena | SlimeSpace`;
       }
@@ -110,7 +190,6 @@ document.addEventListener("DOMContentLoaded", () => {
     renderTable();
   }
 
-  // Helper function for version badges
   function getVersionBadgeClass(versionStr) {
     const v = versionStr.toLowerCase();
     if (v === 'global') return 'global';
@@ -118,11 +197,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (v === 'both') return 'both';
     return 'unknown';
   }
-
-  // Initialize Data & Sync Headers to Newest Code
-  parsedCodes = parseRedeemCodesData(redeemCodesData);
-  updateDynamicHeaders(parsedCodes);
-  applyFilters();
 
   // ==========================================
   // RENDER TABLE & PAGINATION
@@ -242,4 +316,7 @@ document.addEventListener("DOMContentLoaded", () => {
     toastEl.classList.add('show');
     setTimeout(() => toastEl.classList.remove('show'), 2200);
   }
+
+  // Initialize data loading starting with Repository 1 (Repo 2 & 3 remain untouched unless Repo 1 fails)
+  loadSharedConfigWithFallback();
 });
