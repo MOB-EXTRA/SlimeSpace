@@ -70,6 +70,18 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         `;
       }
+
+      // Force links container to stay locked and show an offline notice
+      if (linksGridContainer) {
+        linksGridContainer.classList.add("locked");
+        linksGridContainer.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 2rem; color: var(--codm-red);">
+            <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; margin-bottom: 0.5rem;"></i>
+            <p style="font-weight: bold; font-size: 1rem;">Internet Connection Required</p>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-top: 0.4rem;">You must be online and complete access verification to view download links.</p>
+          </div>
+        `;
+      }
       return;
     }
 
@@ -79,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
     script.async = true;
 
     script.onload = function() {
-      console.log(`Config successfully loaded from ${currentRepo.name}`);
       activeRepoName = currentRepo.name;
 
       if (typeof notARobot !== "undefined") {
@@ -275,7 +286,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (linksGridContainer) {
       if (data.links && data.links.length > 0) {
         linksGridContainer.innerHTML = data.links.map(item => {
-          // --- Dynamic Icon & Image Fallback Generation for Cleaned Repository Structure ---
           let imgFile = 'codm-ts-logo-A64.png';
           let faIconClass = 'fa-brands fa-android';
 
@@ -289,11 +299,9 @@ document.addEventListener("DOMContentLoaded", () => {
             imgFile = 'codm-ts-logo-A64.png';
           }
 
-          // Dynamic icon URL & background URL from local assets
           let iconUrl = `assets/images/${imgFile}`;
           let bgUrl = iconUrl;
 
-          // Ensure proper FontAwesome icon insertion in device title
           const deviceHasIcon = /<i\b[^>]*>/i.test(item.device);
           let deviceTitleHTML = item.device;
 
