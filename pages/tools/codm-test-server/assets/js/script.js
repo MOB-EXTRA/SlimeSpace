@@ -286,7 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (linksGridContainer) {
       if (data.links && data.links.length > 0) {
         linksGridContainer.innerHTML = data.links.map(item => {
-          let imgFile = 'codm-ts-logo-A64.png';
+          let imgFile = 'codm-ts-logo-A.png';
           let faIconClass = 'fa-brands fa-android';
 
           const deviceLower = item.device.toLowerCase();
@@ -294,9 +294,9 @@ document.addEventListener("DOMContentLoaded", () => {
             faIconClass = 'fa-brands fa-apple';
             imgFile = 'codm-ts-logo-ios.png';
           } else if (item.device.includes('32-bit')) {
-            imgFile = 'codm-ts-logo-A32.png';
+            imgFile = 'codm-ts-logo-A.png';
           } else if (item.device.includes('64-bit')) {
-            imgFile = 'codm-ts-logo-A64.png';
+            imgFile = 'codm-ts-logo-A.png';
           }
 
           let iconUrl = `assets/images/${imgFile}`;
