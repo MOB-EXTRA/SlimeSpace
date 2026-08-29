@@ -97,14 +97,20 @@ document.addEventListener("DOMContentLoaded", () => {
         verifyData = notARobot;
       }
 
-      if (typeof testServerData !== "undefined") {
+      // Ensure valid test server data and links exist before displaying them and starting the timer
+      if (typeof testServerData !== "undefined" && testServerData.links && testServerData.links.length > 0) {
         loadedServerData = testServerData;
         renderServerData(testServerData);
+
+        // Wait exactly 3 seconds after links are fully loaded and rendered before showing verification
+        setTimeout(() => {
+          renderVerificationGateway();
+        }, 3000);
+      } else {
+        console.warn("Download links are missing or failed to load. Verification gateway will remain hidden.");
       }
-
-      renderVerificationGateway();
     };
-
+    
     script.onerror = function() {
       console.warn(`Repository #${currentIndex + 1} (${currentRepo.name}) failed. Switching to next repository...`);
       currentIndex++;
