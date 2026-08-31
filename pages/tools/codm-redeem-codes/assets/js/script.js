@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let parsedCodes = [];
   let filteredCodes = [];
   let currentPage = 1;
-  let rowsPerPage = 5;
+  let rowsPerPage = 10;
 
   function loadSharedConfigWithFallback() {
     if (currentIndex >= repoConfigs.length) {
@@ -192,9 +192,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getVersionBadgeClass(versionStr) {
     const v = versionStr.toLowerCase();
-    if (v === 'global') return 'global';
-    if (v === 'garena') return 'garena';
-    if (v === 'both') return 'both';
+    if (v.includes('global')) return 'global';
+    if (v.includes('garena')) return 'garena';
     return 'unknown';
   }
 
@@ -214,13 +213,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const totalItems = filteredCodes.length;
-    const totalPages = Math.ceil(totalItems / rowsPerPage);
+    const isAllRows = rowsPerPage === 'All';
+    const totalPages = isAllRows ? 1 : Math.ceil(totalItems / rowsPerPage);
 
     if (currentPage > totalPages) currentPage = totalPages;
     if (currentPage < 1) currentPage = 1;
 
-    const startIndex = (currentPage - 1) * rowsPerPage;
-    const endIndex = Math.min(startIndex + rowsPerPage, totalItems);
+    const startIndex = isAllRows ? 0 : (currentPage - 1) * rowsPerPage;
+    const endIndex = isAllRows ? totalItems : Math.min(startIndex + rowsPerPage, totalItems);
     const paginatedItems = filteredCodes.slice(startIndex, endIndex);
 
     paginatedItems.forEach(item => {
@@ -241,8 +241,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     pageInfo.textContent = `Showing ${startIndex + 1}-${endIndex} of ${totalItems}`;
-    prevBtn.disabled = currentPage === 1;
-    nextBtn.disabled = currentPage === totalPages;
+    prevBtn.disabled = isAllRows || currentPage === 1;
+    nextBtn.disabled = isAllRows || currentPage === totalPages;
   }
 
   // ==========================================
@@ -250,7 +250,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================================
   if (rowsSelect) {
     rowsSelect.addEventListener('change', (e) => {
-      rowsPerPage = parseInt(e.target.value, 10);
+      const val = e.target.value;
+      rowsPerPage = val === 'All' ? 'All' : parseInt(val, 10);
       currentPage = 1;
       renderTable();
     });
@@ -317,6 +318,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => toastEl.classList.remove('show'), 2200);
   }
 
-  // Initialize data loading starting with Repository 1 (Repo 2 & 3 remain untouched unless Repo 1 fails)
+  // Initialize data loading starting with Repository 1
   loadSharedConfigWithFallback();
 });
