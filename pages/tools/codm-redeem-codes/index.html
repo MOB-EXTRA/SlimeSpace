@@ -102,7 +102,7 @@
       </div>
     </aside>
 
-    <!-- Main Content Card (Contains SEO Guide, YouTube Tutorial, and the Table) -->
+    <!-- Main Content Card -->
     <main class="app-card">
       
       <!-- Last Updated Date Banner -->
@@ -110,7 +110,7 @@
         <span>Last Updated: <strong class="text-cyan" id="last-updated-date">Not available</strong></span>
       </div>
 
-      <!-- SEO Content & Guide Section (Placed above the table) -->
+      <!-- SEO Content & Guide Section -->
       <div class="seo-intro-section">
         <h2 class="seo-section-title">About CODM Redeem Codes & Rewards</h2>
         <p class="seo-text">
@@ -131,7 +131,7 @@
 
       <div class="section-divider"></div>
 
-      <!-- Direct YouTube Redirection Card (Placed below paragraphs and above table) -->
+      <!-- Direct YouTube Redirection Card -->
       <section class="video-card">
         <div class="video-card-header">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="#FF0000"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
@@ -163,6 +163,9 @@
       <div class="table-controls">
         <div class="search-group">
           <input type="text" id="codeInputSearch" placeholder="Search codes..." autocomplete="off" />
+          <button type="button" id="clearSearchBtn" class="clear-search-btn" aria-label="Clear search" style="display: none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
         </div>
         
         <div class="filter-controls-row">
@@ -263,7 +266,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/redeem-codes.js"></script>
   <script src="assets/js/script.js"></script>
   <script src="../../../assets/js/footer-year.js"></script>
 

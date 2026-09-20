@@ -1,3 +1,6 @@
+/* =================================================================
+   1. GLOBAL VARIABLES & RESET
+   ================================================================ */
 :root {
   --bg-primary: #070c18;
   --bg-card: #0e172a;
@@ -25,20 +28,13 @@ body {
   padding: 12px;
 }
 
-/* Premium Header Styling */
+/* =================================================================
+   2. HEADER STRUCTURE (`.app-header`)
+   ================================================================ */
 .app-header {
   width: 100%;
   max-width: 600px;
   margin-bottom: 16px;
-}
-
-.header-card-glow {
-  background: linear-gradient(135deg, rgba(14, 23, 42, 0.95), rgba(15, 28, 54, 0.95));
-  border: 1px solid rgba(56, 189, 248, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  padding: 18px;
-  text-align: center;
 }
 
 .top-nav-bar {
@@ -65,6 +61,15 @@ body {
 .top-nav-btn:hover {
   border-color: var(--accent-cyan);
   background: rgba(56, 189, 248, 0.05);
+}
+
+.header-card-glow {
+  background: linear-gradient(135deg, rgba(14, 23, 42, 0.95), rgba(15, 28, 54, 0.95));
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 18px;
+  text-align: center;
 }
 
 .brand-badge {
@@ -113,7 +118,9 @@ body {
   font-weight: 600;
 }
 
-/* Layout Wrapper */
+/* =================================================================
+   3. LAYOUT WRAPPER & CARDS (`.app-layout-wrapper`)
+   ================================================================ */
 .app-layout-wrapper {
   width: 100%;
   max-width: 600px;
@@ -144,7 +151,9 @@ body {
   color: var(--accent-cyan);
 }
 
-/* SEO Intro Section Styling (Above Table) */
+/* =================================================================
+   4. SEO GUIDE & FAQ SECTION (`.seo-intro-section`)
+   ================================================================ */
 .seo-intro-section {
   margin-bottom: 14px;
 }
@@ -187,17 +196,20 @@ body {
   margin: 16px 0;
 }
 
-/* Controls */
-.table-controls {
+/* =================================================================
+   5. TABLE CONTROLS & COMPACT CODES TABLE
+   ================================================================ */
+.search-group {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 12px;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .search-group input {
   width: 100%;
-  padding: 8px 12px;
+  padding: 8px 34px 8px 12px;
   background: var(--bg-primary);
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -206,11 +218,31 @@ body {
   outline: none;
 }
 
+.clear-search-btn {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: color 0.2s ease;
+}
+
+.clear-search-btn:hover {
+  color: var(--text-primary);
+}
+
 .filter-controls-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 8px;
+  margin-bottom: 12px;
 }
 
 .filter-group, .limit-group {
@@ -232,7 +264,6 @@ body {
   outline: none;
 }
 
-/* Compact Table Layout */
 .table-container {
   width: 100%;
   overflow-x: auto;
@@ -245,88 +276,125 @@ body {
 }
 
 .codes-table th, .codes-table td {
-  padding: 8px 4px;
+  padding: 6px 3px;
   border-bottom: 1px solid var(--border-color);
-  font-size: 0.75rem;
+  font-size: 0.73rem;
+  vertical-align: middle;
 }
 
 .codes-table th {
   color: var(--text-secondary);
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   text-transform: uppercase;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.3px;
 }
 
-/* Proportional Column Sizes */
-.th-code { width: 34%; }
-.th-version { width: 20%; }
-.th-date { width: 28%; white-space: nowrap; }
-.th-action { width: 18%; }
+.th-code { width: 35%; }
+.th-version { width: 22%; }
+.th-date { width: 22%; white-space: nowrap; }
+.th-action { width: 21%; text-align: center; }
 
+/* =================================================================
+   6. TABLE CELLS, VERSION BADGES & TODAY'S LOCK / YT UNLOCK STYLES
+   ================================================================ */
 .code-cell code {
   background: rgba(255, 255, 255, 0.05);
   padding: 3px 5px;
   border-radius: 4px;
   color: var(--accent-cyan);
   font-weight: 700;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   letter-spacing: 0.2px;
   word-break: break-all;
 }
 
-/* Version Badge Styles */
+.code-cell.locked-cell {
+  position: relative;
+  user-select: none;
+}
+
+.locked-code-text {
+  filter: blur(5px);
+  background: rgba(255, 255, 255, 0.08);
+  color: transparent;
+  pointer-events: none;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: inline-block;
+  user-select: none;
+  font-size: 0.7rem;
+}
+
+.yt-unlock-btn {
+  background: #FF0000;
+  color: #ffffff;
+  border: none;
+  padding: 5px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.68rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap;
+  width: 100%;
+  max-width: 88px;
+  transition: background 0.2s ease;
+  box-shadow: 0 2px 6px rgba(255, 0, 0, 0.25);
+}
+
+.yt-unlock-btn:hover {
+  background: #cc0000;
+}
+
 .v-badge {
   display: inline-block;
   padding: 2px 6px;
   border-radius: 4px;
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
   text-align: center;
 }
 
-.v-badge.unknown { 
-  background: rgba(148, 163, 184, 0.15); 
-  color: #94a3b8; 
-}
-
-.v-badge.global { 
-  background: rgba(245, 158, 11, 0.18); 
-  color: #fbbf24;
-}
-
-.v-badge.garena { 
-  background: rgba(239, 68, 68, 0.18); 
-  color: #f87171;
-}
-
-.v-badge.both { 
-  background: linear-gradient(135deg, rgba(239, 68, 68, 0.22), rgba(245, 158, 11, 0.22)); 
-  color: #fef08a;
-}
+.v-badge.unknown { background: rgba(148, 163, 184, 0.15); color: #94a3b8; }
+.v-badge.global { background: rgba(245, 158, 11, 0.18); color: #fbbf24; }
+.v-badge.garena { background: rgba(239, 68, 68, 0.18); color: #f87171; }
+.v-badge.both { background: linear-gradient(135deg, rgba(239, 68, 68, 0.22), rgba(245, 158, 11, 0.22)); color: #fef08a; }
 
 .date-cell {
   color: var(--text-secondary);
   white-space: nowrap;
-  font-size: 0.72rem;
+  font-size: 0.65rem;
+  letter-spacing: -0.2px;
 }
 
 .text-right { text-align: right; }
-.action-cell { text-align: right; }
+.action-cell { text-align: center; }
 
 .copy-btn {
   background: var(--accent-blue);
   color: #fff;
   border: none;
-  padding: 4px 8px;
+  padding: 5px 10px;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 700;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 65px;
 }
 
 .copy-btn:active { transform: scale(0.96); }
 
-/* Pagination */
+/* =================================================================
+   7. PAGINATION & NOTICE BOXES
+   ================================================================ */
 .pagination-wrapper {
   display: flex;
   justify-content: space-between;
@@ -349,7 +417,6 @@ body {
 
 .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
-/* Note Box */
 .important-note-box {
   background: rgba(56, 189, 248, 0.05);
   border: 1px dashed var(--accent-cyan);
@@ -370,7 +437,9 @@ body {
 .portal-info { line-height: 1.5; color: var(--text-secondary); }
 .link-cyan { color: var(--accent-cyan); text-decoration: underline; }
 
-/* YouTube Watch Hours Video Card */
+/* =================================================================
+   8. VIDEO TUTORIAL & PROMO CARDS
+   ================================================================ */
 .video-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -413,9 +482,7 @@ body {
   transition: transform 0.3s ease;
 }
 
-.video-thumbnail-link:hover .yt-thumb {
-  transform: scale(1.03);
-}
+.video-thumbnail-link:hover .yt-thumb { transform: scale(1.03); }
 
 .play-overlay {
   position: absolute;
@@ -464,11 +531,8 @@ body {
   transition: background 0.2s ease;
 }
 
-.yt-watch-btn:hover {
-  background: #cc0000;
-}
+.yt-watch-btn:hover { background: #cc0000; }
 
-/* Promo Card */
 .promo-card {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
@@ -507,7 +571,9 @@ body {
   font-size: 0.8rem;
 }
 
-/* Toast */
+/* =================================================================
+   9. TOAST NOTIFICATION & FOOTER
+   ================================================================ */
 .toast {
   position: fixed;
   bottom: 20px;
@@ -525,7 +591,6 @@ body {
 
 .toast.show { transform: translateX(-50%) translateY(0); }
 
-/* Footer */
 .app-footer {
   text-align: center;
   font-size: 0.75rem;

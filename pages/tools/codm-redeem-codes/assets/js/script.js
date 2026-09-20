@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // 3 Sequential Fallback Repositories for Shared Redeem Codes Data (`redeem-codes.js`) using GitHub Pages
+  // =================================================================
+  // 1. CONFIGURATIONS & REPOSITORIES FALLBACK ARRAY
+  // =================================================================
   const repoConfigs = [
     { url: "https://mob-extra.github.io/MOBEXTRA.github.shared-data-repo.1/codm-redeem-code/redeem-codes.js", name: "Repository 1" },
     { url: "https://mob-extra.github.io/MOBEXTRA.github.shared-data-repo.2/codm-redeem-code/redeem-codes.js", name: "Repository 2" },
@@ -9,9 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentIndex = 0;
   let activeRepoName = repoConfigs[0].name;
 
+  // =================================================================
+  // 2. DOM ELEMENT REFERENCES
+  // =================================================================
   const toastEl = document.getElementById('toast');
   const tableBody = document.getElementById('codesTableBody');
   const searchInput = document.getElementById('codeInputSearch');
+  const clearSearchBtn = document.getElementById('clearSearchBtn'); 
   const versionFilterSelect = document.getElementById('versionFilter');
   const rowsSelect = document.getElementById('rowsPerPage');
   const pageInfo = document.getElementById('pageInfo');
@@ -21,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const dynamicHeadingDateEl = document.getElementById('dynamicHeadingDate');
   const pageSeoTitleEl = document.getElementById('page-seo-title');
 
-  // Create container for repo source info below the table/pagination if it doesn't exist
   const appCard = document.querySelector('.app-card');
   let repoSourceContainer = document.getElementById('repoSourceContainer');
   if (!repoSourceContainer && appCard) {
@@ -40,6 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentPage = 1;
   let rowsPerPage = 10;
 
+  // =================================================================
+  // 3. FALLBACK DATA LOADER
+  // =================================================================
   function loadSharedConfigWithFallback() {
     if (currentIndex >= repoConfigs.length) {
       console.error("Critical Error: All redeem code repositories failed.");
@@ -51,14 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
             Contact via YouTube
           </a>
         </td></tr>`;
-      }
-      if (repoSourceContainer) {
-        repoSourceContainer.innerHTML = `
-          <div class="important-note-box mt-16" style="border-color: #e74c3c; background: rgba(231, 76, 60, 0.05);">
-            <span class="note-badge" style="color: #e74c3c;">⚠️ REPO SOURCE ERROR</span>
-            <p class="portal-info">All repository sources failed to load. Please notify the administrator via YouTube.</p>
-          </div>
-        `;
       }
       return;
     }
@@ -76,14 +76,12 @@ document.addEventListener("DOMContentLoaded", () => {
         applyFilters();
         renderRepoSourceInfo();
       } else {
-        console.warn(`Repository #${currentIndex + 1} loaded but redeemCodesData is undefined. Switching...`);
         currentIndex++;
         loadSharedConfigWithFallback();
       }
     };
 
     script.onerror = function() {
-      console.warn(`Repository #${currentIndex + 1} (${currentRepo.name}) failed. Switching to next repository...`);
       currentIndex++;
       loadSharedConfigWithFallback();
     };
@@ -101,9 +99,9 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  // ==========================================
-  // PARSER: CONVERT TEXT STRING TO ARRAY
-  // ==========================================
+  // =================================================================
+  // 4. DATA PARSER FUNCTION
+  // =================================================================
   function parseRedeemCodesData(dataString) {
     if (typeof redeemCodesData === 'undefined') return [];
     
@@ -133,9 +131,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return result.sort((a, b) => b.timestamp - a.timestamp);
   }
 
-  // ==========================================
-  // DYNAMIC HEADER & TITLE UPDATE BASED ON NEWEST CODE
-  // ==========================================
+  // =================================================================
+  // 5. DYNAMIC HEADERS & SEO TITLE UPDATER
+  // =================================================================
   function updateDynamicHeaders(codes) {
     if (!codes || codes.length === 0) return;
 
@@ -150,27 +148,26 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    if (lastUpdatedEl) {
-      lastUpdatedEl.textContent = latestDateStr;
-    }
+    if (lastUpdatedEl) lastUpdatedEl.textContent = latestDateStr;
 
     if (latestTimestamp > 0) {
       const latestDateObj = new Date(latestTimestamp);
       const monthYearString = latestDateObj.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
-      if (dynamicHeadingDateEl) {
-        dynamicHeadingDateEl.textContent = `(${monthYearString})`;
-      }
-
-      if (pageSeoTitleEl) {
-        pageSeoTitleEl.textContent = `Active CODM Redeem Codes ${monthYearString} — Global & Garena | SlimeSpace`;
-      }
+      if (dynamicHeadingDateEl) dynamicHeadingDateEl.textContent = `(${monthYearString})`;
+      if (pageSeoTitleEl) pageSeoTitleEl.textContent = `Active CODM Redeem Codes ${monthYearString} — Global & Garena | SlimeSpace`;
     }
   }
 
-  // ==========================================
-  // FILTERING LOGIC
-  // ==========================================
+  // =================================================================
+  // 6. CLEAR SEARCH BUTTON & FILTER LOGIC
+  // =================================================================
+  function updateClearButtonVisibility() {
+    if (clearSearchBtn && searchInput) {
+      clearSearchBtn.style.display = searchInput.value.trim().length > 0 ? 'flex' : 'none';
+    }
+  }
+
   function applyFilters() {
     const searchQuery = searchInput ? searchInput.value.toLowerCase().trim() : '';
     const selectedVersion = versionFilterSelect ? versionFilterSelect.value : 'All';
@@ -197,9 +194,23 @@ document.addEventListener("DOMContentLoaded", () => {
     return 'unknown';
   }
 
-  // ==========================================
-  // RENDER TABLE & PAGINATION
-  // ==========================================
+  // =================================================================
+  // 7. TIMEZONE-SAFE DATE CHECKER ("TODAY")
+  // =================================================================
+  function isToday(dateStr) {
+    if (!dateStr || dateStr.toLowerCase() === 'not available') return false;
+    const codeDate = new Date(dateStr);
+    if (isNaN(codeDate.getTime())) return false;
+
+    const userTodayStr = new Date().toLocaleDateString('en-CA');
+    const codeDateStr = codeDate.toLocaleDateString('en-CA');
+
+    return userTodayStr === codeDateStr;
+  }
+
+  // =================================================================
+  // 8. TABLE & PAGINATION RENDERER
+  // =================================================================
   function renderTable() {
     if (!tableBody) return;
     tableBody.innerHTML = '';
@@ -226,16 +237,38 @@ document.addEventListener("DOMContentLoaded", () => {
     paginatedItems.forEach(item => {
       const tr = document.createElement('tr');
       const badgeClass = getVersionBadgeClass(item.version);
+      
+      const isNewToday = isToday(item.date);
+
+      let codeColumnContent = '';
+      let actionColumnContent = '';
+
+      if (isNewToday) {
+        codeColumnContent = `<td class="code-cell locked-cell"><span class="locked-code-text">${item.code}</span></td>`;
+        actionColumnContent = `
+          <td class="action-cell">
+            <a href="https://www.youtube.com/channel/UCbDtYZS08VvB6luAcyn08bQ" target="_blank" rel="noopener noreferrer" class="yt-unlock-btn" title="Watch YouTube to get this code">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+              <span>Get on YT</span>
+            </a>
+          </td>
+        `;
+      } else {
+        codeColumnContent = `<td class="code-cell"><code>${item.code}</code></td>`;
+        actionColumnContent = `
+          <td class="action-cell">
+            <button type="button" class="copy-btn" onclick="copyCode('${item.code}')">
+              Copy
+            </button>
+          </td>
+        `;
+      }
 
       tr.innerHTML = `
-        <td class="code-cell"><code>${item.code}</code></td>
+        ${codeColumnContent}
         <td class="version-cell"><span class="v-badge ${badgeClass}">${item.version}</span></td>
         <td class="date-cell">${item.date}</td>
-        <td class="action-cell">
-          <button type="button" class="copy-btn" onclick="copyCode('${item.code}')">
-            Copy
-          </button>
-        </td>
+        ${actionColumnContent}
       `;
       tableBody.appendChild(tr);
     });
@@ -245,9 +278,9 @@ document.addEventListener("DOMContentLoaded", () => {
     nextBtn.disabled = isAllRows || currentPage === totalPages;
   }
 
-  // ==========================================
-  // EVENT LISTENERS FOR CONTROLS
-  // ==========================================
+  // =================================================================
+  // 9. EVENT LISTENERS FOR CONTROLS
+  // =================================================================
   if (rowsSelect) {
     rowsSelect.addEventListener('change', (e) => {
       const val = e.target.value;
@@ -258,12 +291,24 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (searchInput) {
-    searchInput.addEventListener('input', applyFilters);
+    searchInput.addEventListener('input', () => {
+      updateClearButtonVisibility();
+      applyFilters();
+    });
   }
 
-  if (versionFilterSelect) {
-    versionFilterSelect.addEventListener('change', applyFilters);
+  if (clearSearchBtn) {
+    clearSearchBtn.addEventListener('click', () => {
+      if (searchInput) {
+        searchInput.value = '';
+        updateClearButtonVisibility();
+        applyFilters();
+        searchInput.focus();
+      }
+    });
   }
+
+  if (versionFilterSelect) versionFilterSelect.addEventListener('change', applyFilters);
 
   if (prevBtn) {
     prevBtn.addEventListener('click', () => {
@@ -284,9 +329,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // ==========================================
-  // GLOBAL HELPER FUNCTIONS
-  // ==========================================
+  // =================================================================
+  // 10. GLOBAL HELPER FUNCTIONS & INITIALIZATION
+  // =================================================================
   window.copyCode = function(codeText) {
     navigator.clipboard.writeText(codeText).then(() => {
       showToast(`Code ${codeText} copied!`);
@@ -318,6 +363,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => toastEl.classList.remove('show'), 2200);
   }
 
-  // Initialize data loading starting with Repository 1
+  // Kickstart repository loading sequence
   loadSharedConfigWithFallback();
 });
