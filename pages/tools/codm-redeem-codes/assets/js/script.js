@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let parsedCodes = [];
   let filteredCodes = [];
   let currentPage = 1;
-  let rowsPerPage = 10;
+  let rowsPerPage = 30;
 
   // =================================================================
   // 3. FALLBACK DATA LOADER
@@ -195,17 +195,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =================================================================
-  // 7. TIMEZONE-SAFE DATE CHECKER ("TODAY")
+  // 7. TIMEZONE-SAFE 3-DAY BUFFER CHECKER
   // =================================================================
-  function isToday(dateStr) {
+  function isWithinLast3Days(dateStr) {
     if (!dateStr || dateStr.toLowerCase() === 'not available') return false;
     const codeDate = new Date(dateStr);
     if (isNaN(codeDate.getTime())) return false;
 
-    const userTodayStr = new Date().toLocaleDateString('en-CA');
-    const codeDateStr = codeDate.toLocaleDateString('en-CA');
+    // Normalize dates to midnight to compare day differences accurately
+    const codeTime = new Date(codeDate.getFullYear(), codeDate.getMonth(), codeDate.getDate()).getTime();
+    const today = new Date();
+    const todayTime = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
 
-    return userTodayStr === codeDateStr;
+    const diffTime = todayTime - codeTime;
+    const diffDays = diffTime / (1000 * 60 * 60 * 24);
+
+    // Returns true if added today (0), 1 day ago, or 2 days ago (within 3 days span)
+    return diffDays >= 0 && diffDays < 3;
   }
 
   // =================================================================
@@ -238,12 +244,12 @@ document.addEventListener("DOMContentLoaded", () => {
       const tr = document.createElement('tr');
       const badgeClass = getVersionBadgeClass(item.version);
       
-      const isNewToday = isToday(item.date);
+      const isLocked = isWithinLast3Days(item.date);
 
       let codeColumnContent = '';
       let actionColumnContent = '';
 
-      if (isNewToday) {
+      if (isLocked) {
         codeColumnContent = `<td class="code-cell locked-cell"><span class="locked-code-text">${item.code}</span></td>`;
         actionColumnContent = `
           <td class="action-cell">
