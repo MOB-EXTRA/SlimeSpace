@@ -244,8 +244,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const tr = document.createElement('tr');
       const badgeClass = getVersionBadgeClass(item.version);
       
-      const isLocked = isWithinLast3Days(item.date);
-
+      // Check if it's a Garena version and within the last 3 days
+      const isGarenaVersion = item.version.toLowerCase().includes('garena');
+      const isLocked = isGarenaVersion && isWithinLast3Days(item.date);
+      
       let codeColumnContent = '';
       let actionColumnContent = '';
 
