@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =================================================================
-  // 4. DATA PARSER FUNCTION
+  // 4. DATA PARSER FUNCTION (Supports Explicit Lock Flag)
   // =================================================================
   function parseRedeemCodesData(dataString) {
     if (typeof redeemCodesData === 'undefined') return [];
@@ -112,18 +112,23 @@ document.addEventListener("DOMContentLoaded", () => {
       const codeMatch = entry.match(/r-code:\s*([^\n]+)/i);
       const versionMatch = entry.match(/version:\s*([^\n]+)/i);
       const dateMatch = entry.match(/data-added:\s*([^\n]+)/i);
+      
+      // Look for explicit lock flag (e.g. 'locked: 1' or a separate line containing '1')
+      const lockedMatch = entry.match(/locked:\s*1/i) || entry.match(/^1\s*$/m);
 
       if (codeMatch) {
         const code = codeMatch[1].trim();
         const version = versionMatch ? versionMatch[1].trim() : "Unknown";
         const dateStr = dateMatch ? dateMatch[1].trim() : "Not available";
         const timestamp = new Date(dateStr).getTime() || 0;
+        const isLockedFlag = Boolean(lockedMatch);
 
         result.push({
           code: code,
           version: version,
           date: dateStr,
-          timestamp: timestamp
+          timestamp: timestamp,
+          locked: isLockedFlag
         });
       }
     });
@@ -244,9 +249,8 @@ document.addEventListener("DOMContentLoaded", () => {
       const tr = document.createElement('tr');
       const badgeClass = getVersionBadgeClass(item.version);
       
-      // Check if it's a Garena version and within the last 3 days
-      const isGarenaVersion = item.version.toLowerCase().includes('garena');
-      const isLocked = isGarenaVersion && isWithinLast3Days(item.date);
+      // Code is locked ONLY if it has the explicit lock flag AND is within the last 3 days
+      const isLocked = item.locked && isWithinLast3Days(item.date);
       
       let codeColumnContent = '';
       let actionColumnContent = '';
