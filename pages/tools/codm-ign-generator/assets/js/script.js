@@ -22,10 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   inputEl.addEventListener('input', updateCharCounter);
 
-  window.insertSpace = function() {
+  // Reusable helper function to insert the selected Unicode space at the cursor
+  function insertSpaceAtCursor() {
     if (inputEl.value.length >= 14) {
       showToast("Maximum length reached (14 chars)", true);
-      return;
+      return false;
     }
 
     const selectedType = spaceSelect.value;
@@ -42,8 +43,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     updateCharCounter();
-    inputEl.focus();
     inputEl.setSelectionRange(start + spaceChar.length, start + spaceChar.length);
+    return true;
+  }
+
+  // Catch physical keyboard spacebar presses (Desktop)
+  inputEl.addEventListener('keydown', (e) => {
+    if (e.key === ' ' || e.code === 'Space') {
+      e.preventDefault();
+      insertSpaceAtCursor();
+    }
+  });
+
+  // Catch mobile virtual soft-keyboard spacebar taps & text insertions
+  inputEl.addEventListener('beforeinput', (e) => {
+    if (e.data === ' ' || e.inputType === 'insertLineBreak') {
+      e.preventDefault();
+      insertSpaceAtCursor();
+    }
+  });
+
+  window.insertSpace = function() {
+    if (insertSpaceAtCursor()) {
+      inputEl.focus();
+    }
   };
 
   window.copyIGN = function() {
